@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "606043473275",
+    "firebase_url": "https://good-vibes-cd94b.firebaseio.com",
+    "project_id": "good-vibes-cd94b",
+    "storage_bucket": "good-vibes-cd94b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606043473275:android:ecf448a046f20168",
+        "android_client_info": {
+          "package_name": "com.goodvibes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606043473275-vo741d6c6b2vag1pcl5ov3d29o0jpf3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodvibes",
+            "certificate_hash": "97085ccecc17b38f3f6bcf3835af93d54e7e2b4c"
+          }
+        },
+        {
+          "client_id": "606043473275-67flce9vjd3glq1dognadffrt0b3tfta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodvibes",
+            "certificate_hash": "c439bed67b150cb2b99dd4bf7ca0dc033a1937c9"
+          }
+        },
+        {
+          "client_id": "606043473275-o4jokb42r8euhge05q9ke4uils7a2itg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApXBhdXoS3kmLPtDbXsWqzVxqF0gEGRhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606043473275-o4jokb42r8euhge05q9ke4uils7a2itg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "606043473275-ctqpr6m9ogoadikt66eiei86crqt3d35.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Clickandpressllc.GoodVibes"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-4284307101881172~6388287871"
+    }
+  ],
+  "configuration_version": "1"
+}

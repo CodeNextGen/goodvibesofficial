@@ -1,0 +1,11 @@
+image: registry.gitlab.com/exitlive/music-player:1.0
+
+stages:
+  - test
+
+run_tests:
+  stage: test
+  tags:
+    - shared
+  script:
+    - ./ci/test.sh
