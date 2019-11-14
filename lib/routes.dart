@@ -6,6 +6,7 @@ import 'package:goodvibes/pages/reminder/reminder_page.dart';
 import 'package:goodvibes/pages/user/email_signin.dart';
 import 'package:goodvibes/pages/user/login.dart';
 import 'package:goodvibes/pages/user/profile_page.dart';
+import 'package:goodvibes/providers.dart/login_provider.dart';
 import 'pages/faq/faq.dart';
 import 'pages/home/home.dart';
 import 'pages/initial/intro_page.dart';
@@ -37,7 +38,7 @@ var routes = {
   'askQuestion': (context) => AskQuestion(),
   'genreSongs': (context) => GenreSongs(),
   'subscribe': (context) => SubscriptionPage(),
-  'emaillogin': (context) => SignInEmail(),
+  'emaillogin': (context) => SignInEmail(FormMode.LOGIN),
   'reminder': (context) => ReminderPage(),
   'addNewReminder': (context) => AddNewReminder(),
   'deleteReminders': (context) => DeleteReminders(),

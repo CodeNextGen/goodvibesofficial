@@ -47,17 +47,24 @@ class AlbumsPage extends StatelessWidget {
                                 fit: BoxFit.cover),
                             // color: Colors.blue
                           ),
+
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              _album.title.toUpperCase(),
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                width: 150,
+                                child: Text(
+                                  _album.title,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.fade,
+                                  softWrap: true,
+                                ),
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              softWrap: true,
                             ),
                           ),
                         ),

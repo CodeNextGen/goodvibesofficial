@@ -263,4 +263,13 @@ class MusicService {
       // print('timer is active');
     });
   }
+
+  Future stopDown() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'data.db');
+    db = await openDatabase(path);
+    db.close();
+    isDownloading.value = false;
+    isDownloaded.value = false;
+  }
 }

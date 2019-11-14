@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         )),
                   ),
                   Text('We want your feedback',
-                      style: TextStyle(fontSize: 18.0)),
+                      style: TextStyle(fontSize: 15.0)),
                   Text(
                     'Love the app? ',
                     style: TextStyle(color: Colors.blue, fontSize: 14.0),
@@ -140,16 +140,16 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       body: Container(
         height: double.infinity,
-        decoration: BoxDecoration(
-            gradient: RadialGradient(colors: [
-          Color(0xFFBBDEFB),
-          // Color(0xFFBBDEFB),
-          Color(0xffE4F0F7)
-        ], radius: 300)
-            // image: DecorationImage(
-            //     image: AssetImage('assets/images/onboarding1.png'),
-            //     fit: BoxFit.cover),
-            ),
+//        decoration: BoxDecoration(
+//            gradient: RadialGradient(colors: [
+//          Color(0xffE4F0F7),
+//          // Color(0xFFBBDEFB),
+//          Color(0xffE4F0F7)
+//        ], radius: 300)
+//            // image: DecorationImage(
+//            //     image: AssetImage('assets/images/onboarding1.png'),
+//            //     fit: BoxFit.cover),
+//            ),
         // color: Color(0xFFBBDEFB),
 
         width: double.infinity,
@@ -165,10 +165,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     image: AssetImage('assets/images/bg1.png'),
                     fit: BoxFit.cover),
               ),
-              child: Center(
-                child: Text(
-                  'SettingsPage',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    children: <Widget>[
+//                      IconButton(
+//                        icon: Icon(
+//                          Icons.arrow_back,
+//                          color: Colors.white,
+//                        ),
+//                        onPressed: () => Navigator.pop(context),
+//                      ),
+                      SizedBox(width: 20.0,),
+                      Text(
+                        'Settings',
+                        style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -177,34 +193,76 @@ class _SettingsPageState extends State<SettingsPage> {
                 builder: (context, state, _) => SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.only(left: 16.0, right: 16.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
+                          onTap: null,
+                          title: Padding(
+                            padding: const EdgeInsets.only(top:35.0, bottom: 15.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'account'.toUpperCase(),
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  // color: Color(0xFFEEAEFF),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
                           onTap: () {
                             if (state.isLoggedIn == true)
                               Navigator.pushNamed(context, 'profile');
                             else
                               Navigator.pushNamed(context, 'loginHome');
                           },
-                          title: Text(
-                            'Profile',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.person_outline, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0,),
+                              Text(
+                                'Profile',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+//                          leading: Icon(Icons.person_outline),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
 
                         ListTile(
+                          dense: true,
                           onTap: () =>
                               Navigator.pushNamed(context, 'download'),
-                          title: Text(
-                            'Downloads',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.arrow_downward, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10),
+                              Text(
+                                'Downloads',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+//                          leading: Icon(Icons.arrow_downward),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
 
@@ -213,30 +271,52 @@ class _SettingsPageState extends State<SettingsPage> {
                         //   title: Text(
                         //     'Do not Disturb',
                         //     style: TextStyle(
-                        //       fontSize: 18.0,
+                        //       fontSize: 15.0,
                         //     ),
                         //   ),
                         // ),
                         state.userdata.paid == false
                             ? ListTile(
+                          dense: true,
                                 onTap: () =>
                                     Navigator.pushNamed(context, 'subscribe'),
-                                title: Text(
-                                  'Subscription',
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                  ),
+                                title: Row(
+                                  children: <Widget>[
+                           Icon(Icons.subscriptions,color: Color(0xFF3741AE),),
+                                    SizedBox(width: 10.0),
+                                    Text(
+                                      'Manage suscribe',
+                                      style: TextStyle(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
+                          ),
                               )
                             : Container(),
                         ListTile(
+                          dense: true,
                           onTap: () =>
                               Navigator.pushNamed(context, 'reminder'),
-                          title: Text(
-                            'Reminder',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            children: <Widget>[
+                          Icon(Icons.alarm, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Reminder',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         // ListTile(
@@ -244,7 +324,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         //   title: Text(
                         //     'Shop',
                         //     style: TextStyle(
-                        //       fontSize: 18.0,
+                        //       fontSize: 15.0,
                         //     ),
                         //   ),
                         // ),
@@ -253,39 +333,52 @@ class _SettingsPageState extends State<SettingsPage> {
                         //   title: Text(
                         //     'Travel',
                         //     style: TextStyle(
-                        //       fontSize: 18.0,
+                        //       fontSize: 15.0,
                         //     ),
                         //   ),
                         // ),
-                        SizedBox(
-                          height: 10,
-                        ),
+//                        SizedBox(
+//                          height: 10,
+//                        ),
                         ListTile(
                           onTap: null,
                           title: Text(
-                            'general'.toUpperCase(),
+                            'more'.toUpperCase(),
                             style: TextStyle(
-                              fontSize: 17.0,
+                              fontSize: 18.0,
                               fontWeight: FontWeight.bold,
                               // color: Color(0xFFEEAEFF),
                             ),
                           ),
                         ),
                         ListTile(
+                          dense: true,
                           onTap: null,
                           title: GestureDetector(
                             onTap: () {
                               _rateApp();
                             },
-                            child: Text(
-                              'Rate app',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                              ),
+                            child: Row(
+                              children: <Widget>[
+                          Icon(Icons.star_border, color: Color(0xFF3741AE),),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  'Rate app',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+
+                              ],
                             ),
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         ListTile(
+                          dense: true,
                           onTap: null,
                           title: GestureDetector(
                             onTap: () {
@@ -293,15 +386,26 @@ class _SettingsPageState extends State<SettingsPage> {
                               Share.share(
                                   'Good Vibes Official https://play.google.com/store/apps/details?id=com.goodvibes&hl=en_US');
                             },
-                            child: Text(
-                              'Share app',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                              ),
+                            child: Row(
+                              children: <Widget>[
+                           Icon(Icons.share, color: Color(0xFF3741AE),),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  'Share app',
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         ListTile(
+                          dense: true,
                           onTap: () async {
                             const url =
                                 'http://goodvibesofficial.com/help-and-support';
@@ -311,29 +415,61 @@ class _SettingsPageState extends State<SettingsPage> {
                               throw 'Could not launch $url';
                             }
                           },
-                          title: Text(
-                            'Help and Support',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            children: <Widget>[
+                          Icon(Icons.help_outline, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Help and Support',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         ListTile(
+                          dense: true,
                           onTap: () => Navigator.pushNamed(context, 'about'),
-                          title: Text(
-                            'About Us',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            children: <Widget>[
+                          Icon(Icons.new_releases, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'About Us',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         ListTile(
+                          dense: true,
                           onTap: () => Navigator.pushNamed(context, 'faq'),
-                          title: Text(
-                            'FAQ',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
+                          title: Row(
+                            children: <Widget>[
+                          Icon(Icons.question_answer, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'FAQ',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
                           ),
                         ),
                         Consumer<MusicProvider>(
@@ -344,6 +480,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               builder: (context, loginprovider,_) {
                                 return state.isLoggedIn == true
                                     ? ListTile(
+                                  dense: true,
                                         onTap: () async {
                                           // await data.stopPlaying();
                                           locator<MusicService>().stopPlaying();
@@ -354,12 +491,22 @@ class _SettingsPageState extends State<SettingsPage> {
                                               'login',
                                               (Route<dynamic> route) => false);
                                         },
-                                        title: Text(
-                                          'Logout',
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                          ),
+                                        title: Row(
+                                          children: <Widget>[
+                                 Icon(Icons.input, color: Color(0xFF3741AE),),
+                                            SizedBox(width: 10.0),
+                                            Text(
+                                              'Logout',
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                  subtitle: Divider(
+                                    color: Colors.grey,
+                                    indent: 35.0,
+                                  ),
                                       )
                                     : Container();
                               }

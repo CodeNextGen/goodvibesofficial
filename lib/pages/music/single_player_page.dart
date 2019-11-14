@@ -23,6 +23,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   final _locator = locator<MusicService>();
   final userstate = locator<StartupProvider>();
   double dd = 0;
+  bool isdownloading = false;
 
   @override
   void initState() {
@@ -579,14 +580,17 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                           return IconButton(
                                               icon: Stack(
                                                 children: [
-                                                  Center(
-                                                    child: Icon(
-                                                      isdownloaded == false
-                                                          ? Icons.cloud_queue
-                                                          : Icons.cloud,
-                                                      color: Color(0xFF3F3FB6),
-                                                    ),
+                                                  Opacity(
+                                                    child: Center(
+                                                      child: Icon(
+                                                        isdownloaded == false
+                                                            ? Icons.cloud_queue
+                                                            : Icons.cloud,
+                                                        color: Color(0xFF3F3FB6),
+                                                      ),
+                                                    ), opacity: isDownloading == false? 1: 0,
                                                   ),
+
                                                   _locator.songIndex ==
                                                           _locator
                                                               .downloadTrackIndex
@@ -598,19 +602,24 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                               percantage, _) {
                                                             return Container(
                                                               child:
-                                                                  CircularProgressIndicator(
-                                                                semanticsLabel:
-                                                                    'Downloading..',
-                                                                semanticsValue:
-                                                                    '$percantage',
-                                                                value:
-                                                                    percantage /
-                                                                        100.0,
-                                                                valueColor:
-                                                                    AlwaysStoppedAnimation(
-                                                                        Colors
-                                                                            .blue),
-                                                              ),
+                                                                  Stack(
+                                                                    children: <Widget>[
+                                                                      CircularProgressIndicator(
+                                                                        semanticsLabel:
+                                                                        'Downloading..',
+                                                                        semanticsValue:
+                                                                        '$percantage',
+                                                                        value:
+                                                                        percantage /
+                                                                            100.0,
+                                                                        valueColor:
+                                                                        AlwaysStoppedAnimation(
+                                                                            Colors
+                                                                                .blue),
+                                                                      ),
+                                                                      Opacity(child: Icon(Icons.close, color: Color(0xFF3F3FB6),), opacity: isDownloading == true?1: 0,)
+                                                                    ],
+                                                                  ),
                                                             );
                                                           })
                                                       : Container(),
@@ -618,9 +627,11 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                               ),
                                               onPressed: isDownloading
                                                   ? () {
-                                                      Fluttertoast.showToast(
+                                                _locator.stopDown();
+                                                _locator.downloadTrackIndex = 9999;
+                                                Fluttertoast.showToast(
                                                           msg:
-                                                              ' Already Downloading!',
+                                                              'Download cancled !',
                                                           backgroundColor:
                                                               Colors.deepPurple,
                                                           textColor:
@@ -771,6 +782,10 @@ class _SinglePlayerState extends State<SinglePlayer> {
       ),
     );
   }
+
+  getOpacityValue(double value) {
+    return value;
+  }
 }
 
 class ModelTimerSettrr extends StatefulWidget {
@@ -833,4 +848,6 @@ class _ModelTimerSettrrState extends State<ModelTimerSettrr> {
               ],
             ));
   }
+
+
 }

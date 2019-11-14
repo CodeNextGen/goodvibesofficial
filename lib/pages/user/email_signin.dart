@@ -8,15 +8,21 @@ import 'package:goodvibes/widgets/popup_message.dart';
 import 'package:provider/provider.dart';
 
 class SignInEmail extends StatefulWidget {
+  final FormMode formMode;
+
+  SignInEmail(this.formMode);
+
   @override
-  _SignInEmailState createState() => _SignInEmailState();
+  _SignInEmailState createState() => _SignInEmailState(formMode);
 }
 
 class _SignInEmailState extends State<SignInEmail> {
-  String email, pass, displayname;
+  String email, pass, displayname, confirmPass;
   final _formKey = GlobalKey<FormState>();
   bool showpassword = true;
   FormMode formMode = FormMode.LOGIN;
+
+  _SignInEmailState(this.formMode);
 
   String validateEmail(String value) {
     Pattern pattern =
@@ -176,6 +182,8 @@ class _SignInEmailState extends State<SignInEmail> {
                             if (value.length < 8) {
                               return 'Password must be min 8 char';
                             }
+
+                            confirmPass = value;
                             return null;
                           },
                           onSaved: (val) => pass = val,
@@ -197,6 +205,62 @@ class _SignInEmailState extends State<SignInEmail> {
                   ),
                 ),
               ),
+
+              formMode == FormMode.SIGNUP
+                  ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: Colors.white),
+                  child: Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        width: 25,
+                      ),
+                      Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        width: 25,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          autocorrect: false,
+                          autofocus: false,
+                          obscureText: showpassword,
+                          decoration: InputDecoration(
+                              hintText: 'Confirm Password',
+                              border: InputBorder.none),
+//                          onSaved: (val) => confirmPass = val,
+                          validator: (value) {
+                            if (value !=confirmPass) {
+                              return 'Password mismatched !!!';
+                            }
+                            return null;
+                          },
+                          // 'Enter you email address',
+                          // style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(showpassword == true
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                        onPressed: () {
+                          setState(() {
+                            showpassword = !showpassword;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              )
+                  : Container(),
               SizedBox(
                 height: 15,
               ),

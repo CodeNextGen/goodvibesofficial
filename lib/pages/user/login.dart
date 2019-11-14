@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:goodvibes/models/user_model.dart';
+import 'package:goodvibes/pages/user/email_signin.dart';
 import 'package:goodvibes/providers.dart/login_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/widgets/popup_message.dart';
@@ -178,6 +180,31 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
             ),
+
+//            dont have a account
+
+          SizedBox(
+            height: 15.0,
+          ),
+          RichText(
+            text: TextSpan(
+               text: "Don't have an account yet?  ",
+              style: TextStyle(color: Color(0xFF789AFF), fontSize: 14.0),
+              children: [
+                TextSpan(
+                  text: "Sign Up",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                      color: Colors.white),
+                  recognizer: TapGestureRecognizer()..onTap = (){
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (context) => SignInEmail(FormMode.SIGNUP)));
+                }
+                )
+              ]
+            ),
+          ),
       
       
 

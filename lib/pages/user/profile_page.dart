@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/providers.dart/login_provider.dart';
 import 'package:goodvibes/providers.dart/music_provider.dart';
@@ -64,12 +65,21 @@ class _UserProfileState extends State<UserProfile> {
                     Positioned(
                       top: 25,
                       left: 2,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => Navigator.pop(context),
+                      child: Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Text(
+                            'Profile',
+                            style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                     Stack(
@@ -395,6 +405,14 @@ class _UserProfileState extends State<UserProfile> {
                   ],
                 ),
               ),
+//              StaggeredGridView.count(crossAxisCount: 2,
+//              crossAxisSpacing: 12,
+//              mainAxisSpacing: 12,
+//                padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+//                children: <Widget>[
+//                  MyGridTiles(IconButton(icon: Image.asset('assets/images/avatar.png'),onPressed: ()=>{},))
+//                ],
+//              )
             ],
           ),
         ),

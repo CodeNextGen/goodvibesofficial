@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "606043473275-rgpm8ud10c2nl09mdntb8k1adur1sfja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goodvibes",
+            "certificate_hash": "1365c47917219d5493f2b29e5ac8986c5d226c3a"
+          }
+        },
+        {
           "client_id": "606043473275-vo741d6c6b2vag1pcl5ov3d29o0jpf3p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -51,7 +59,8 @@
               "client_id": "606043473275-ctqpr6m9ogoadikt66eiei86crqt3d35.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.Clickandpressllc.GoodVibes"
+                "bundle_id": "com.Clickandpressllc.GoodVibes",
+                "app_store_id": "1454917657"
               }
             }
           ]

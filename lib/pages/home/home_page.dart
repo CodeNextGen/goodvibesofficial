@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
           ),
           TrailButton(),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -73,17 +73,18 @@ class HomePage extends StatelessWidget {
                   )
                 : Container(),
           ),
+
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
                   child: Text(
-                    'Recommended',
+                    'Premium tracks',
                     style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                    TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Recomended(),
