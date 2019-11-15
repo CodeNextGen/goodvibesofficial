@@ -14,6 +14,7 @@ class AlbumsPage extends StatelessWidget {
 
     return Consumer<MusicProvider>(builder: (context, data, _) {
       return Container(
+//        margin: const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
         height: 160.0,
         child: data.albums.isNotEmpty
             ? ListView.builder(
@@ -55,7 +56,7 @@ class AlbumsPage extends StatelessWidget {
                               child: Container(
                                 width: 150,
                                 child: Text(
-                                  _album.title,
+                                  _album.title.toUpperCase(),
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18.0,

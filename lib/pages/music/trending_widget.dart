@@ -63,11 +63,11 @@ class TrendingTracks extends StatelessWidget {
                                   image: NetworkImage(_track.image),
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(5.0)),
-//                  height: 140.0,
+//                  height: double.infinity,
                         ),
                         Container(
                           width: double.infinity,
-//                  height: 140.0,
+//                  height: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
                             gradient: LinearGradient(
@@ -86,6 +86,8 @@ class TrendingTracks extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   _track.title,
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 2,
                                   style: TextStyle(color: Colors.white),
                                 ),
                               )),

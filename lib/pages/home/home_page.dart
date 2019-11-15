@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(25),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/bg1.png'),
@@ -35,22 +35,23 @@ class HomePage extends StatelessWidget {
                   child: Header(),
                 ),
                 Positioned(
-                  bottom: 10.0,
-                  left: 15.0,
-                  right: 15.0,
-                  child: AlbumsPage(),
+                  top: 120.0,
+                  left: 30.0,
+                  right: 1.0,
+                  child: Center(child: AlbumsPage()),
                 )
               ],
             ),
           ),
+          SizedBox(height: 30.0),
           TrailButton(),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18.0),
+                  padding: const EdgeInsets.only(bottom: 18.0, top: 12.0),
                   child: Text(
                     'Trending',
                     style:
@@ -75,7 +76,7 @@ class HomePage extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

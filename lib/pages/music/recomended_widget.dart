@@ -32,12 +32,12 @@ class Recomended extends StatelessWidget {
         builder: (context, data, _) {
       return Container(
         // padding: const EdgeInsets.all(15.0),
-        height: 320 + 25.0,
+        height: 320.0,
         child: data.recomended.isNotEmpty
             ? GridView.count(
                 crossAxisCount: 2,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 15,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
                 scrollDirection: Axis.horizontal,
                 children: List.generate(data.recomended.length, (index) {
                   return InkWell(
@@ -56,11 +56,12 @@ class Recomended extends StatelessWidget {
                                       data.recomended[index].image),
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(5.0)),
-                          height: 160.0,
+                          width: 150.0,
+                          height: 150.0,
                         ),
                         Container(
-                          width: double.infinity,
-                          height: 160.0,
+                          width: 150.0,
+                          height: 150.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
                             gradient: LinearGradient(
@@ -80,6 +81,8 @@ class Recomended extends StatelessWidget {
                                 child: Text(
                                   data.recomended[index].title,
                                   style: TextStyle(color: Colors.white),
+                                  overflow: TextOverflow.fade,
+                                  maxLines: 2,
                                 ),
                               )),
                         )

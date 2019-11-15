@@ -23,6 +23,7 @@ class TrailButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10.0),
           child: Container(
             height: 60.0,
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10.0),
             decoration: BoxDecoration(boxShadow: <BoxShadow>[
               BoxShadow(
                 spreadRadius: 1,
