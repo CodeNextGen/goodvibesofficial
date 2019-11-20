@@ -99,6 +99,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.3"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   equatable:
     dependency: "direct main"
     description:
@@ -291,6 +298,13 @@ packages:
       relative: true
     source: path
     version: "0.1.4"
+  paging:
+    dependency: "direct main"
+    description:
+      name: paging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   path:
     dependency: transitive
     description:

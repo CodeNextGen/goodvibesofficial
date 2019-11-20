@@ -75,7 +75,9 @@ class Header extends StatelessWidget {
                   Icons.notifications_none,
                   size: 30,
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pushNamed(context, 'notification');
+                },
                 color: Colors.white,
                 
               ),

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationModel {
@@ -74,4 +75,29 @@ class NotificationModel {
         status: db['status'] == 1 ? true : false);
 
   }
+}
+
+class NotificationRequest {
+ String title, content,image;
+ int track_id, album_id, category_id;
+
+ NotificationRequest({
+   this.title,
+   this.content,
+   this.track_id,
+   this.album_id,
+   this.category_id,
+   this.image
+});
+
+ factory NotificationRequest.fromJson(Map<String, dynamic> json) {
+   return NotificationRequest(
+       title: json['title'],
+       content: json['content'],
+       track_id: json['track_id'],
+       album_id: json['album_id'] ?? ' ',
+       category_id: json['category_id'] ?? ' ',
+       image: json['image'] ?? 'https://nepalikart.com/wp-content/uploads/2019/09/placeholder.jpg'
+   );
+ }
 }

@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:goodvibes/pages/music/album.dart';
 import 'package:goodvibes/pages/music/recomended_widget.dart';
@@ -43,19 +44,48 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 30.0),
-          TrailButton(),
+          Center(
+            child: DotsIndicator(
+              dotsCount: 3,
+              position: 1,
+              decorator: DotsDecorator(
+                  color: Colors.black87,
+                  activeColor: Color(0xBB6619A5),
+                  spacing: EdgeInsets.only(left: 2, top: 8, right: 2),
+                size: const Size.square(6.0),
+                activeSize: const Size.square(9.0),
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0),
+//          TrailButton(),
           Padding(
-            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0),
+            padding: const EdgeInsets.only(top:5.0, left: 32.0, right: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(bottom: 18.0, top: 12.0),
-                  child: Text(
-                    'Trending',
-                    style:
-                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Trending',
+                        style:
+                            TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      DotsIndicator(
+                        dotsCount: 3,
+                        position: 1,
+                        decorator: DotsDecorator(
+                          color: Colors.black87,
+                          activeColor: Color(0xBB6619A5),
+                          spacing: EdgeInsets.symmetric(horizontal: 2),
+                          size: const Size.square(6.0),
+                          activeSize: const Size.square(9.0),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 TrendingTracks(),
@@ -76,16 +106,32 @@ class HomePage extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0),
+            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0, bottom: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18.0),
-                  child: Text(
-                    'Premium tracks',
-                    style:
-                    TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Premium tracks',
+                        style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                      DotsIndicator(
+                        dotsCount: 3,
+                        position: 1,
+                        decorator: DotsDecorator(
+                            color: Colors.black87,
+                            activeColor: Color(0xBB6619A5),
+                            spacing: EdgeInsets.symmetric(horizontal: 2),
+                          size: const Size.square(6.0),
+                          activeSize: const Size.square(9.0),
+                        ),
+                      )
+                    ],
                   ),
                 ),
                 Recomended(),

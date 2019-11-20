@@ -282,7 +282,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     Navigator.pushNamed(context, 'subscribe'),
                                 title: Row(
                                   children: <Widget>[
-                           Icon(Icons.subscriptions,color: Color(0xFF3741AE),),
+                           Icon(Icons.touch_app,color: Color(0xFF3741AE),),
                                     SizedBox(width: 10.0),
                                     Text(
                                       'Manage suscribe',

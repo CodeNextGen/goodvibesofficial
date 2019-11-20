@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/music_provider.dart';
+import 'package:goodvibes/providers.dart/notification_page_provider.dart';
 import 'package:goodvibes/providers.dart/notification_provider.dart';
 import 'package:goodvibes/providers.dart/payment_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
@@ -61,6 +62,9 @@ class AppRoot extends StatelessWidget with WidgetsBindingObserver {
         ),
         ChangeNotifierProvider<StartupProvider>.value(
           value: StartupProvider(),
+        ),
+        ChangeNotifierProvider<NotificationPageProvider>.value(
+          value: NotificationPageProvider(),
         ),
         // ChangeNotifierProvider<MusicPlayerProvider>.value(
         //   value: MusicPlayerProvider(),

@@ -78,11 +78,35 @@ class Recomended extends StatelessWidget {
                               alignment: Alignment.bottomCenter,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  data.recomended[index].title,
-                                  style: TextStyle(color: Colors.white),
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
+                                      data.recomended[index].title,
+                                      style: TextStyle(color: Colors.white),
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 2,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Image.asset("assets/images/play_1.png"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Text(
+                                            data.recomended[index].duration,
+                                            overflow: TextOverflow.fade,
+                                            maxLines: 2,
+                                            style: TextStyle(color: Colors.white, fontSize: 8.0),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               )),
                         )

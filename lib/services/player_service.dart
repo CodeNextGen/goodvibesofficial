@@ -269,6 +269,7 @@ class MusicService {
     String path = join(databasesPath, 'data.db');
     db = await openDatabase(path);
     db.close();
+    downloadPercantage.value = 0;
     isDownloading.value = false;
     isDownloaded.value = false;
   }

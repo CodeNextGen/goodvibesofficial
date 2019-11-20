@@ -13,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 
 class SinglePlayer extends StatefulWidget {
   final int index;
+
   SinglePlayer({Key key, this.index}) : super(key: key);
 
   @override
@@ -24,6 +25,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   final userstate = locator<StartupProvider>();
   double dd = 0;
   bool isdownloading = false;
+  int downloadPercentage;
 
   @override
   void initState() {
@@ -481,31 +483,31 @@ class _SinglePlayerState extends State<SinglePlayer> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         //repeat button
-                        Flexible(
-                          child: Column(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  _locator.repeat
-                                      ? Icons.repeat
-                                      : Icons.arrow_forward,
-                                  color: Color(0xFF3F3FB6),
-                                ),
-                                onPressed: () => setState(() {
-                                  _locator.repeat = !_locator.repeat;
-                                }),
-                              ),
-                              Text(
-                                'Repeat ${_locator.repeat ? 'ON ' : 'OFF'}',
-                                style: TextStyle(
-                                    color: Color(0xFF3F3FB6), fontSize: 12.0),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 14.0,
-                        ),
+//                        Flexible(
+//                          child: Column(
+//                            children: <Widget>[
+//                              IconButton(
+//                                icon: Icon(
+//                                  _locator.repeat
+//                                      ? Icons.repeat
+//                                      : Icons.arrow_forward,
+//                                  color: Color(0xFF3F3FB6),
+//                                ),
+//                                onPressed: () => setState(() {
+//                                  _locator.repeat = !_locator.repeat;
+//                                }),
+//                              ),
+//                              Text(
+//                                'Repeat ${_locator.repeat ? 'ON ' : 'OFF'}',
+//                                style: TextStyle(
+//                                    color: Color(0xFF3F3FB6), fontSize: 12.0),
+//                              )
+//                            ],
+//                          ),
+//                        ),
+//                        SizedBox(
+//                          width: 14.0,
+//                        ),
                         //fav button
                         Flexible(
                           child: Column(
@@ -586,11 +588,15 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                         isdownloaded == false
                                                             ? Icons.cloud_queue
                                                             : Icons.cloud,
-                                                        color: Color(0xFF3F3FB6),
+                                                        color:
+                                                            Color(0xFF3F3FB6),
                                                       ),
-                                                    ), opacity: isDownloading == false? 1: 0,
+                                                    ),
+                                                    opacity:
+                                                        isDownloading == false
+                                                            ? 1
+                                                            : 0,
                                                   ),
-
                                                   _locator.songIndex ==
                                                           _locator
                                                               .downloadTrackIndex
@@ -601,25 +607,46 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                           builder: (context,
                                                               percantage, _) {
                                                             return Container(
-                                                              child:
-                                                                  Stack(
-                                                                    children: <Widget>[
-                                                                      CircularProgressIndicator(
-                                                                        semanticsLabel:
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      right:
+                                                                          8.0,
+                                                                      top: 6.0),
+                                                              child: Stack(
+                                                                children: <
+                                                                    Widget>[
+                                                                  CircularProgressIndicator(
+                                                                    semanticsLabel:
                                                                         'Downloading..',
-                                                                        semanticsValue:
+                                                                    semanticsValue:
                                                                         '$percantage',
-                                                                        value:
+                                                                    value:
                                                                         percantage /
                                                                             100.0,
-                                                                        valueColor:
+                                                                    valueColor:
                                                                         AlwaysStoppedAnimation(
-                                                                            Colors
-                                                                                .blue),
-                                                                      ),
-                                                                      Opacity(child: Icon(Icons.close, color: Color(0xFF3F3FB6),), opacity: isDownloading == true?1: 0,)
-                                                                    ],
+                                                                            Colors.blue),
+                                                                    strokeWidth:
+                                                                        1.0,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .black12,
                                                                   ),
+                                                                  Opacity(
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .clear,
+                                                                      color: Color(
+                                                                          0xFF3F3FB6),
+                                                                    ),
+                                                                    opacity:
+                                                                        isDownloading ==
+                                                                                true
+                                                                            ? 1
+                                                                            : 0,
+                                                                  )
+                                                                ],
+                                                              ),
                                                             );
                                                           })
                                                       : Container(),
@@ -627,9 +654,12 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                               ),
                                               onPressed: isDownloading
                                                   ? () {
-                                                _locator.stopDown();
-                                                _locator.downloadTrackIndex = 9999;
-                                                Fluttertoast.showToast(
+                                                      print(
+                                                          '${_locator.downloadPercantage}');
+                                                      _locator.stopDown();
+                                                      _locator.downloadTrackIndex =
+                                                          9999;
+                                                      Fluttertoast.showToast(
                                                           msg:
                                                               'Download cancled !',
                                                           backgroundColor:
@@ -658,12 +688,26 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                       }
                                                     });
                                         }),
-                                    Text(
-                                      'Download',
-                                      style: TextStyle(
-                                          color: Color(0xFF3F3FB6),
-                                          fontSize: 12.0),
-                                    )
+                                    isDownloading == true
+                                        ? ValueListenableBuilder<int>(
+                                            valueListenable:
+                                                _locator.downloadPercantage,
+                                            builder: (context, percantage, _) {
+                                              return Container(
+                                                child: Text(
+                                                  '$percantage %',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xff3f3fb6)),
+                                                ),
+                                              );
+                                            })
+                                        : Text(
+                                            'Download',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xff3f3fb6)),
+                                          ),
                                   ],
                                 );
                               }),
@@ -709,7 +753,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
                               return Slider(
                                 onChanged: (d) {
                                   dd = d;
-                                    _locator.seekMusic(d);
+                                  _locator.seekMusic(d);
                                   // if (userstate.userdata.paid != true &&
                                   //     d.toInt() > 15 * 60) {
                                   //   showCupertinoDialog(
@@ -848,6 +892,4 @@ class _ModelTimerSettrrState extends State<ModelTimerSettrr> {
               ],
             ));
   }
-
-
 }

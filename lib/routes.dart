@@ -1,6 +1,7 @@
 
 import 'package:goodvibes/pages/about/about.dart';
 import 'package:goodvibes/pages/initial/splash.dart';
+import 'package:goodvibes/pages/notification/notification.dart';
 import 'package:goodvibes/pages/offline.dart';
 import 'package:goodvibes/pages/reminder/reminder_page.dart';
 import 'package:goodvibes/pages/user/email_signin.dart';
@@ -42,5 +43,6 @@ var routes = {
   'reminder': (context) => ReminderPage(),
   'addNewReminder': (context) => AddNewReminder(),
   'deleteReminders': (context) => DeleteReminders(),
+  'notification': (context) => Notification(),
 
 };

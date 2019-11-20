@@ -12,10 +12,14 @@ import 'package:provider/provider.dart';
 
 class TrendingTracks extends StatelessWidget {
   final startupProvider = locator<StartupProvider>();
+  static int indexs = 0;
+  ScrollController _scrollController = ScrollController();
+
 
   @override
   Widget build(BuildContext context) {
     final adstate = Provider.of<AdsProvider>(context);
+
     // final musicProvider = Provider.of<MusicProvider>(context);
 
     void openDialog(index) {
@@ -34,20 +38,23 @@ class TrendingTracks extends StatelessWidget {
         // stream: null,
         builder: (context, data, _) {
       return Container(
-        height: 300 + 15.0,
+        height: 250,
         child: data.trendingTracks.isNotEmpty
             ? StaggeredGridView.count(
                 crossAxisCount: 2,
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 scrollDirection: Axis.horizontal,
+                controller: _scrollController,
                 staggeredTiles: [
-                  StaggeredTile.count(2, 1),
+                  StaggeredTile.count(1, 2),
                   for (var i = 2; i <= data.trendingTracks.length; i++)
                     StaggeredTile.count(1, 1)
                 ],
+
                 children: List.generate(data.trendingTracks.length, (index) {
                   Track _track = data.trendingTracks[index];
+                  print('controller:: $_scrollController');
                   return InkWell(
                     onTap: () {
                       // musicProvider.tracks = musicProvider.trendingTracks;
@@ -58,6 +65,9 @@ class TrendingTracks extends StatelessWidget {
                     child: Stack(
                       children: <Widget>[
                         Container(
+                          width: MediaQuery.of(context).size.width,
+                            height: 125,
+//                          height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                   image: NetworkImage(_track.image),
@@ -66,7 +76,8 @@ class TrendingTracks extends StatelessWidget {
 //                  height: double.infinity,
                         ),
                         Container(
-                          width: double.infinity,
+                          width:  MediaQuery.of(context).size.width,
+                          height: 125,
 //                  height: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
@@ -84,11 +95,35 @@ class TrendingTracks extends StatelessWidget {
                               alignment: Alignment.bottomCenter,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  _track.title,
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 2,
-                                  style: TextStyle(color: Colors.white),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
+                                      _track.title,
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 2,
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Image.asset("assets/images/play_1.png"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: Text(
+                                            _track.duration,
+                                            overflow: TextOverflow.fade,
+                                            maxLines: 2,
+                                            style: TextStyle(color: Colors.white, fontSize: 8.0),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
                               )),
                         )
@@ -158,5 +193,12 @@ class TrendingTracks extends StatelessWidget {
               ),
       );
     });
+
+
+
+  }
+
+  static int getIndex(){
+    return indexs;
   }
 }
