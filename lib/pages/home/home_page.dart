@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
               dotsCount: 3,
               position: 1,
               decorator: DotsDecorator(
-                  color: Colors.black87,
+                  color: Colors.grey,
                   activeColor: Color(0xBB6619A5),
                   spacing: EdgeInsets.only(left: 2, top: 8, right: 2),
                 size: const Size.square(6.0),
@@ -60,37 +60,32 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 20.0),
 //          TrailButton(),
           Padding(
-            padding: const EdgeInsets.only(top:5.0, left: 32.0, right: 32.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.only(bottom: 18.0, top: 12.0,left: 32.0, right: 32.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 18.0, top: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        'Trending',
-                        style:
-                            TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      DotsIndicator(
-                        dotsCount: 3,
-                        position: 1,
-                        decorator: DotsDecorator(
-                          color: Colors.black87,
-                          activeColor: Color(0xBB6619A5),
-                          spacing: EdgeInsets.symmetric(horizontal: 2),
-                          size: const Size.square(6.0),
-                          activeSize: const Size.square(9.0),
-                        ),
-                      )
-                    ],
-                  ),
+                Text(
+                  'Trending',
+                  style:
+                      TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                 ),
-                TrendingTracks(),
+                DotsIndicator(
+                  dotsCount: 3,
+                  position: 1,
+                  decorator: DotsDecorator(
+                    color: Colors.grey,
+                    activeColor: Color(0xBB6619A5),
+                    spacing: EdgeInsets.symmetric(horizontal: 2),
+                    size: const Size.square(6.0),
+                    activeSize: const Size.square(9.0),
+                  ),
+                )
               ],
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: TrendingTracks(),
           ),
           Consumer<StartupProvider>(
             builder: (context, state, _) => state.userdata.paid == false
@@ -124,7 +119,7 @@ class HomePage extends StatelessWidget {
                         dotsCount: 3,
                         position: 1,
                         decorator: DotsDecorator(
-                            color: Colors.black87,
+                            color: Colors.grey,
                             activeColor: Color(0xBB6619A5),
                             spacing: EdgeInsets.symmetric(horizontal: 2),
                           size: const Size.square(6.0),

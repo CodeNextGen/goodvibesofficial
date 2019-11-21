@@ -61,8 +61,8 @@ class Genre {
 }
 
 class Track extends Equatable {
-  final int id, cid,gid,playCount;
- final String title, filename, description, url, image, duration, cname, gname, composer;
+   final int id, cid,gid,playCount;
+  final String title, filename, description, url, image, duration, cname, gname, composer;
 
   Track(
       {this.id,
@@ -78,6 +78,7 @@ class Track extends Equatable {
       this.filename,
       this.composer,
       this.cname});
+
 
   factory Track.fromJson(Map<String, dynamic> json) {
     return Track(

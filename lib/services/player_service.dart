@@ -268,9 +268,11 @@ class MusicService {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'data.db');
     db = await openDatabase(path);
-    db.close();
-    downloadPercantage.value = 0;
-    isDownloading.value = false;
-    isDownloaded.value = false;
+    await db.close();
+    downloadPercantage.value = 100;
+   if(isDownloading.value == true){
+     isDownloading.value= false;
+   }
+       isDownloaded.value = false;
   }
 }

@@ -606,6 +606,8 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                               .downloadPercantage,
                                                           builder: (context,
                                                               percantage, _) {
+
+                                                            print("percentage %% $percantage");
                                                             return Container(
                                                               margin: EdgeInsets
                                                                   .only(
@@ -625,12 +627,13 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                                             100.0,
                                                                     valueColor:
                                                                         AlwaysStoppedAnimation(
-                                                                            Colors.blue),
+                                                                          isDownloading== true ?Color(
+                                                                              0xFF3F3FB6):  Colors.transparent,),
                                                                     strokeWidth:
                                                                         1.0,
                                                                     backgroundColor:
-                                                                        Colors
-                                                                            .black12,
+                                                                        isDownloading== true ?Colors
+                                                                            .black12:  Colors.transparent,
                                                                   ),
                                                                   Opacity(
                                                                     child: Icon(
@@ -654,8 +657,9 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                               ),
                                               onPressed: isDownloading
                                                   ? () {
+                                                _locator.downloadPercantage.value= 100;
                                                       print(
-                                                          '${_locator.downloadPercantage}');
+                                                          'percentage% ${_locator.downloadPercantage.value}');
                                                       _locator.stopDown();
                                                       _locator.downloadTrackIndex =
                                                           9999;
@@ -689,25 +693,27 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                     });
                                         }),
                                     isDownloading == true
-                                        ? ValueListenableBuilder<int>(
-                                            valueListenable:
-                                                _locator.downloadPercantage,
-                                            builder: (context, percantage, _) {
-                                              return Container(
-                                                child: Text(
-                                                  '$percantage %',
-                                                  style: TextStyle(
-                                                      fontSize: 12,
-                                                      color: Color(0xff3f3fb6)),
-                                                ),
-                                              );
-                                            })
-                                        : Text(
-                                            'Download',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xff3f3fb6)),
-                                          ),
+                                        ?
+                                      ValueListenableBuilder<int>(
+                                          valueListenable:
+                                          _locator.downloadPercantage,
+                                          builder: (context, percantage, _) {
+                                            return Container(
+                                              child: Text(
+                                                '$percantage %',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Color(0xff3f3fb6)),
+                                              ),
+                                            );
+                                          })
+                                     :
+                                      Text(
+                                        'Download',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xff3f3fb6)),
+                                ),
                                   ],
                                 );
                               }),
