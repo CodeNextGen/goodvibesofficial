@@ -82,17 +82,17 @@ class Header extends StatelessWidget {
                 
               ),
               //visible when there is unread notification
-              Positioned(
-                // alignment: Alignment.centerRight,
-                top: 5,
-                bottom: 5,
-                right: 11,
-
-                child: SizedBox(
-                  width: 10,
-                  height: 10,
-                  child: CircleAvatar(backgroundColor: Color(0xFFFF7D00), ))
-                )
+//              Positioned(
+//                // alignment: Alignment.centerRight,
+//                top: 5,
+//                bottom: 5,
+//                right: 11,
+//
+//                child: SizedBox(
+//                  width: 10,
+//                  height: 10,
+//                  child: CircleAvatar(backgroundColor: Color(0xFFFF7D00), ))
+//                )
                   ],
                 ),
               )

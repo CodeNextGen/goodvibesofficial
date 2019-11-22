@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goodvibes/locator.dart';
@@ -7,7 +8,9 @@ import 'package:goodvibes/models/player_status_enum.dart';
 import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/services/player_service.dart';
+import 'package:goodvibes/styles/button_decoration.dart';
 import 'package:goodvibes/widgets/trail_button.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -25,7 +28,7 @@ class _SinglePlayerState extends State<SinglePlayer> {
   final userstate = locator<StartupProvider>();
   double dd = 0;
   bool isdownloading = false;
-  int downloadPercentage;
+  int downloadPercentage= 0;
 
   @override
   void initState() {
@@ -553,11 +556,11 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                     color: Color(0xFF3F3FB6),
                                   ),
                                   onPressed: () async {
-                                    showDialog(
+                                    showCupertinoDialog(
                                         context: context,
-                                        barrierDismissible: true,
-                                        builder: (BuildContext context) =>
-                                            ModelTimerSettrr());
+                                        builder: (BuildContext context) => ModelTimerSettrr()
+//
+                                    );
                                   }),
                               Text(
                                 'Timer',
@@ -607,7 +610,9 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                                           builder: (context,
                                                               percantage, _) {
 
-                                                            print("percentage %% $percantage");
+//                                                              downloadPercentage = percantage;
+
+                                                            print("percentage %%% $percantage");
                                                             return Container(
                                                               margin: EdgeInsets
                                                                   .only(
@@ -657,7 +662,9 @@ class _SinglePlayerState extends State<SinglePlayer> {
                                               ),
                                               onPressed: isDownloading
                                                   ? () {
-                                                _locator.downloadPercantage.value= 100;
+                                                setState(() {
+                                                  _locator.downloadPercantage.value = downloadPercentage;
+                                                });
                                                       print(
                                                           'percentage% ${_locator.downloadPercantage.value}');
                                                       _locator.stopDown();
@@ -843,59 +850,187 @@ class ModelTimerSettrr extends StatefulWidget {
   _ModelTimerSettrrState createState() => _ModelTimerSettrrState();
 }
 
+
 class _ModelTimerSettrrState extends State<ModelTimerSettrr> {
   final _locator = locator<MusicService>();
 
-  Duration temp;
+  Duration temp = Duration.zero;
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<Duration>(
         valueListenable: _locator.timerRemainig,
         builder: (context, t, _) => CupertinoAlertDialog(
-              title: Text('Set Timer'),
-              content: DurationPicker(
-                duration: temp ?? t,
-                onChange: (val) {
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Set Timer'),
+              ),
+              Text(
+                'Music will Auto stop after playing the set timer',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.0,
+                ),
+              ),
+            ],
+          ),
+            content: Container(
+              width:  MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).copyWith().size.height/3,
+              decoration: buttonDecoration,
+              child: CupertinoTimerPicker(
+                mode: CupertinoTimerPickerMode.hm,
+                initialTimerDuration: temp ??t,
+                onTimerDurationChanged: (val) {
                   setState(() {
                     temp = val;
                   });
                   // _locator.timerRemainig.value = val;
                 },
               ),
-              actions: <Widget>[
-                Column(
+            ),
+          actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      '${t.toString().split('.').first.padLeft(8, "0")}',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                     Expanded(
+                       flex: 1,
+                       child: Padding(
+                         padding: const EdgeInsets.all(24.0),
+                         child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              // color: Colors.white,
+                              borderRadius: BorderRadius.circular(5.0),
+                              border: Border.all(color: Colors.grey),
+                            ),
+//                          width: 150.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  'cancel'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12.0,
+                                     ),
+                                ),
+                              ),
+                            ),
+                          ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        OutlineButton.icon(
-                          icon: Icon(Icons.close),
-                          borderSide: BorderSide.none,
-                          label: Text('Cancel'),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        OutlineButton.icon(
-                          icon: Icon(Icons.done),
-                          borderSide: BorderSide.none,
-                          label: Text('Confirm'),
-                          onPressed: () {
+                       ),
+                     ),
+
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: GestureDetector(
+                          onTap: () {
                             _locator.timer = temp;
                             _locator.timerRemainig.value = temp;
                             _locator.startTimer();
                             // state.calculateRemainingTime();
                             Navigator.pop(context);
                           },
+                          child: Container(
+                            decoration: buttonDecoration,
+//                          width: 150.0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Center(
+                                child: Text(
+                                  'ok'.toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.0,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ));
+//              ],
+//            ),
+          ],
+        ));
+
   }
 }
+
+//class _ModelTimerSettrrState extends State<ModelTimerSettrr> {
+//  final _locator = locator<MusicService>();
+//
+//  Duration temp;
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return ValueListenableBuilder<Duration>(
+//        valueListenable: _locator.timerRemainig,
+//        builder: (context, t, _) => CupertinoAlertDialog(
+//              title: Column(
+//                crossAxisAlignment: CrossAxisAlignment.center,
+//                children: <Widget>[
+//                  Text('Set Timer'),
+//                  Text('Music will Auto stop after playing the set timer',style: TextStyle(
+//                    fontStyle: FontStyle.normal,
+//                    fontSize: 12
+//                  ),)
+//                ],
+//              ),
+//              content: DurationPicker(
+//                duration: temp ??t,
+//                onChange: (val) {
+//                  setState(() {
+//                    temp = val;
+//                  });
+//                  // _locator.timerRemainig.value = val;
+//                },
+//              ),
+//              actions: <Widget>[
+//                Column(
+//                  children: <Widget>[
+//                    Text(
+//                      '${t.toString().split('.').first.padLeft(8, "0")}',
+//                      style:
+//                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+//                    ),
+//                    Row(
+//                      children: <Widget>[
+//                        OutlineButton.icon(
+//                          icon: Icon(Icons.close),
+//                          borderSide: BorderSide.none,
+//                          label: Text('Cancel'),
+//                          onPressed: () => Navigator.pop(context),
+//                        ),
+//                        OutlineButton.icon(
+//                          icon: Icon(Icons.done),
+//                          borderSide: BorderSide.none,
+//                          label: Text('Confirm'),
+//                          onPressed: () {
+//                            _locator.timer = temp;
+//                            _locator.timerRemainig.value = temp;
+//                            _locator.startTimer();
+//                            // state.calculateRemainingTime();
+//                            Navigator.pop(context);
+//                          },
+//                        ),
+//                      ],
+//                    ),
+//                  ],
+//                ),
+//              ],
+//            ));
+//  }
+//}

@@ -93,16 +93,13 @@ class Recomended extends StatelessWidget {
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.all(4.0),
-                                          child: Image.asset("assets/images/play_1.png"),
+                                          child: Icon(Icons.play_circle_outline,color: Colors.white,),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            data.recomended[index].duration,
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 2,
-                                            style: TextStyle(color: Colors.white, fontSize: 8.0),
-                                          ),
+                                        Text(
+                                          '${data.recomended[index].playCount} times',
+                                          overflow: TextOverflow.fade,
+                                          maxLines: 2,
+                                          style: TextStyle(color: Colors.white, fontSize: 8.0),
                                         ),
                                       ],
                                     )

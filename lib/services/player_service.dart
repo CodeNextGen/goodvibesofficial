@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/models/player_status_enum.dart';
@@ -22,7 +23,7 @@ class MusicService {
   // bool isFav = false;
   // bool isDownloaded = false;
   // bool isDownloading = false;
-  // Duration timerRemainig = Duration(seconds: 0);
+   ValueNotifier<TimeOfDay> timerRemainimg = ValueNotifier(TimeOfDay.now());
   Duration timer = Duration(seconds: 0);
   Database db;
   MusicPlayer musicPlayer;
@@ -265,14 +266,15 @@ class MusicService {
   }
 
   Future stopDown() async {
+    if (isDownloading.value == true) {
+      isDownloading.value = false;
+    }
+    isDownloading.value = false;
+    isDownloaded.value = false;
+
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'data.db');
     db = await openDatabase(path);
     await db.close();
-    downloadPercantage.value = 100;
-   if(isDownloading.value == true){
-     isDownloading.value= false;
-   }
-       isDownloaded.value = false;
   }
 }

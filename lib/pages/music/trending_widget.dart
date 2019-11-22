@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/pages/music/single_player_page.dart';
@@ -38,7 +39,7 @@ class TrendingTracks extends StatelessWidget {
         // stream: null,
         builder: (context, data, _) {
       return Container(
-        height: 300,
+        height: 290,
         child: data.trendingTracks.isNotEmpty
             ? StaggeredGridView.count(
                 crossAxisCount: 2,
@@ -110,16 +111,13 @@ class TrendingTracks extends StatelessWidget {
                                       children: <Widget>[
                                         Padding(
                                           padding: const EdgeInsets.all(4.0),
-                                          child: Image.asset("assets/images/play_1.png"),
+                                          child: Icon(Icons.play_circle_outline, color: Colors.white,),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            _track.duration,
-                                            overflow: TextOverflow.fade,
-                                            maxLines: 2,
-                                            style: TextStyle(color: Colors.white, fontSize: 8.0),
-                                          ),
+                                        Text(
+                                          '${_track.playCount} times',
+                                          overflow: TextOverflow.fade,
+                                          maxLines: 2,
+                                          style: TextStyle(color: Colors.white, fontSize: 10.0),
                                         ),
                                       ],
                                     )
