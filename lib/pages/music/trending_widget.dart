@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/pages/music/single_player_page.dart';
@@ -13,8 +12,6 @@ import 'package:provider/provider.dart';
 
 class TrendingTracks extends StatelessWidget {
   final startupProvider = locator<StartupProvider>();
-  static int indexs = 0;
-  ScrollController _scrollController = ScrollController();
 
 
   @override
@@ -46,7 +43,6 @@ class TrendingTracks extends StatelessWidget {
                 mainAxisSpacing: 15,
                 crossAxisSpacing: 15,
                 scrollDirection: Axis.horizontal,
-                controller: _scrollController,
                 staggeredTiles: [
                   StaggeredTile.count(1, 2),
                   for (var i = 2; i <= data.trendingTracks.length; i++)
@@ -55,7 +51,6 @@ class TrendingTracks extends StatelessWidget {
 
                 children: List.generate(data.trendingTracks.length, (index) {
                   Track _track = data.trendingTracks[index];
-                  print('controller:: $_scrollController');
                   return InkWell(
                     onTap: () {
                       // musicProvider.tracks = musicProvider.trendingTracks;
@@ -194,9 +189,5 @@ class TrendingTracks extends StatelessWidget {
 
 
 
-  }
-
-  static int getIndex(){
-    return indexs;
   }
 }

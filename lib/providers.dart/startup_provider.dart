@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:goodvibes/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'music_provider.dart';
-
 class StartupProvider with ChangeNotifier {
   bool _firstRun = true;
   bool _isLoggedIn = false;

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/providers.dart/login_provider.dart';
 import 'package:goodvibes/providers.dart/music_provider.dart';

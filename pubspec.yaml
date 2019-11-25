@@ -52,7 +52,6 @@ dependencies:
   paging: ^0.1.0
   font_awesome_flutter: ^8.5.0
   flutter_datetime_picker: ^1.2.8
-  giffy_dialog: ^1.6.1
   music_player:
     path: ./music_player
 

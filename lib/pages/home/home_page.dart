@@ -6,8 +6,6 @@ import 'package:goodvibes/pages/music/trending_widget.dart';
 import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/widgets/header.dart';
-import 'package:goodvibes/widgets/trail_button.dart';
-
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
