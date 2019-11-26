@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
           SizedBox(height: 20.0),
 //          TrailButton(),
           Padding(
-            padding: const EdgeInsets.only(bottom: 18.0, top: 12.0,left: 32.0, right: 32.0),
+            padding: const EdgeInsets.only(bottom: 18.0, top: 12.0,left: 22.0, right: 22.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -82,7 +82,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: const EdgeInsets.symmetric(horizontal: 22.0),
             child: TrendingTracks(),
           ),
           Consumer<StartupProvider>(
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(top:10.0, left: 32.0, right: 32.0, bottom: 32.0),
+            padding: const EdgeInsets.only(top:10.0, left: 22.0, right: 22.0, bottom: 32.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

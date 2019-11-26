@@ -36,7 +36,7 @@ class TrendingTracks extends StatelessWidget {
         // stream: null,
         builder: (context, data, _) {
       return Container(
-        height: 290,
+        height: 315,
         child: data.trendingTracks.isNotEmpty
             ? StaggeredGridView.count(
                 crossAxisCount: 2,
@@ -61,7 +61,7 @@ class TrendingTracks extends StatelessWidget {
                     child: Stack(
                       children: <Widget>[
                         Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: double.infinity,
 //                            height: 125,
 //                          height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
@@ -72,7 +72,7 @@ class TrendingTracks extends StatelessWidget {
 //                  height: double.infinity,
                         ),
                         Container(
-                          width:  MediaQuery.of(context).size.width,
+                          width: double.infinity,
 //                          height: 125,
 //                  height: double.infinity,
                           decoration: BoxDecoration(
