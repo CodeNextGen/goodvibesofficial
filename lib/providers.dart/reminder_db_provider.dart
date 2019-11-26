@@ -38,8 +38,15 @@ class ReminderDbProvider with ChangeNotifier {
 
   addReminder({int id, String time, String day, int status}) async {
     print('Set reminder db $time');
-    await db.rawInsert(
-        '''insert into  reminder (id ,time,day,status) values ("$id" , "$time", "$day", "$status")''');
+    var row = {
+      'id': id,
+      'time': time,
+      'day': day,
+      'status': status
+    };
+//    var insert = await db.rawInsert(
+//        '''insert into  reminder (id ,time,day,status) values ("$id" , "$time", "$day", "$status")''');
+     await db.insert('reminder', row);
     getReminder();
   }
 
@@ -54,7 +61,7 @@ class ReminderDbProvider with ChangeNotifier {
   }
 
   getReminder() async {
-    var fb = await db.rawQuery('select * from reminder');
+    var fb = await db.query('reminder');
     var a = fb.map<NotificationModel>((data) => NotificationModel.fromDb(data));
     notifications.clear();
     notifications.addAll(a);

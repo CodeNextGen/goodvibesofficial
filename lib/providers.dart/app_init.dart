@@ -16,7 +16,7 @@ class AppInit {
     await createFavTable(db);
     await createHistortTable(db);
     await createReminderTable(db);
-    db.close();
+//    db.close();
   }
 
   createReminderTable(db) async {

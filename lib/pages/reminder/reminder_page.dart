@@ -110,7 +110,7 @@ class _ReminderPageState extends State<ReminderPage> {
                                         color: Colors.white, fontSize: 34),
                                   ),
                                   subtitle: Text(
-                                    ' Every ${notification.displayDay}',
+                                    '    ${notification.displayDay}',
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),

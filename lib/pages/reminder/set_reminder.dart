@@ -143,7 +143,7 @@ class _AddNewReminderState extends State<AddNewReminder> {
                         onPressed: () {
                           
                           setNotification();
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, "reminder");
                         }),
                   ],
                   content: Text(
