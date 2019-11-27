@@ -32,7 +32,7 @@ class Recomended extends StatelessWidget {
         builder: (context, data, _) {
       return Container(
 //         padding: const EdgeInsets.all(15.0),
-        height: 315.0,
+        height: MediaQuery.of(context).size.height/2.05,
         child: data.recomended.isNotEmpty
             ? GridView.count(
                 crossAxisCount: 2,
@@ -56,11 +56,11 @@ class Recomended extends StatelessWidget {
                                       data.recomended[index].image),
                                   fit: BoxFit.cover),
                               borderRadius: BorderRadius.circular(5.0)),
-                          width: double.infinity,
+                          width: MediaQuery.of(context).size.width,
 //                          height: 150.0,
                         ),
                         Container(
-                          width: double.infinity,
+                          width: MediaQuery.of(context).size.width,
 //                          height: 150.0,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5.0),
