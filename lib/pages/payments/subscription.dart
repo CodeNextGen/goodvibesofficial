@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:goodvibes/pages/webviewPages/privacyPolicy.dart';
+import 'package:goodvibes/pages/webviewPages/termsAndConditions.dart';
 import 'package:goodvibes/providers.dart/payment_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/widgets/rectange_clipper.dart';
 import 'package:provider/provider.dart';
-import '../privacy/privacy_policy.dart';
 
 class SubscriptionPage extends StatelessWidget {
   @override
@@ -567,7 +568,12 @@ class SubscriptionPage extends StatelessWidget {
                             ),
                             Text('|'),
                             FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TermsAndConditions()));
+                              },
                               child: Text(
                                 'Terms of Use ',
                                 textAlign: TextAlign.center,

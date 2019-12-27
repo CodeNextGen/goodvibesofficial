@@ -1,16 +1,17 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/models/player_status_enum.dart';
-import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:music_player/music_player.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../locator.dart';
 
 class MusicService {
   List<Track> musics = List();
@@ -18,15 +19,17 @@ class MusicService {
   Track songPlaying = Track();
   int downloadTrackIndex = 9999;
   int currentPlayerIndex = 9999;
+
   // bool repeatMode = false;
   bool repeat = false;
+
   // bool isFav = false;
   // bool isDownloaded = false;
   // bool isDownloading = false;
-   ValueNotifier<TimeOfDay> timerRemainimg = ValueNotifier(TimeOfDay.now());
   Duration timer = Duration(seconds: 0);
   Database db;
   MusicPlayer musicPlayer;
+
   // PlayerStatus playerStatus;
   double pos = 0;
   ValueNotifier<int> downloadPercantage = ValueNotifier(0);
@@ -39,6 +42,15 @@ class MusicService {
   ValueNotifier<Duration> timerRemainig = ValueNotifier(Duration(seconds: 0));
   ValueNotifier<PlayerStatus> playerStatus =
       ValueNotifier(PlayerStatus.isStopped);
+  ValueNotifier<bool> isFirstClickTimer = ValueNotifier(true);
+
+  AdmobInterstitial rewardAd;
+  AdmobInterstitial rewardAdAfter20;
+  bool isAdRepeat = false;
+  bool isAdLoaded = false;
+  bool is_Downloading = false;
+
+  int adCounterII = 0;
 
   getInitialData() {
     //get Fav Data
@@ -64,10 +76,21 @@ class MusicService {
     var downloadpath = await getDatabasesPath();
     // var pathh =  join(downloadpath, t.filename);
     Track t = musics[songIndex];
-    await Dio().download("${t.url}", "$downloadpath/${t.filename}",
-        onReceiveProgress: (int d, int t) {
-      getdownloadpercentage(d, t);
-    });
+    CancelToken cancelToken = CancelToken();
+    if(is_Downloading== true) {
+      cancelToken.cancel(["User clicked download listner"]);
+      is_Downloading = false;
+    }
+//    try {
+      await Dio().download("${t.url}", "$downloadpath/${t.filename}",
+          options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
+          onReceiveProgress: (int d, int t) {
+            getdownloadpercentage(d, t);
+          },
+          cancelToken: cancelToken);
+//    }catch(e){
+//      print("exception $e");
+//    }
     print(t.filename);
     await db.rawInsert('''insert into  download
        (id ,title,filename,duration,cid,description,url,cname,composer,image)
@@ -102,7 +125,7 @@ class MusicService {
         coverUrl: trackplaying.image,
         id: trackplaying.id.toString(),
       ));
-      playerStatus.value = PlayerStatus.isPlaying;
+//      playerStatus.value = PlayerStatus.isPlaying;
     }
   }
 
@@ -114,6 +137,16 @@ class MusicService {
     }
     playerStatus.value = PlayerStatus.isStopped;
     currentPlayerIndex = 9999;
+  }
+
+  void resume(){
+      musicPlayer.resume();
+      playerStatus.value = PlayerStatus.isPlaying;
+  }
+
+  void pause(){
+      musicPlayer.pause();
+      playerStatus.value = PlayerStatus.isPaused;
   }
 
   initPlatformState() {
@@ -141,21 +174,35 @@ class MusicService {
         //   stopPlaying();
         //   locator<AdsProvider>().showinterestialAds();
         // }
+
+        if (current.value.inMinutes == 1 && current.value.inSeconds == 90) {
+          if (locator<StartupProvider>().userdata.paid == false) {
+            showintrestatialAdsVideo();
+          }
+        }
+
+        if (current.value.inMinutes == 20 && current.value.inSeconds == 1206) {
+          if (locator<StartupProvider>().userdata.paid == false) {
+            showintrestatialAdsVideo();
+      }
+        }
         if (timerRemainig.value.inSeconds == 0 && timer.inSeconds > 5) {
           stopPlaying();
           timer = Duration(seconds: 0);
-          // if (locator<StartupProvider>().userdata.paid == false &&
-          //     d.inMinutes >= 15) {
-          //   stopPlaying();
-          //   locator<AdsProvider>().showinterestialAds();
-          // }
+        }
+        if (timerRemainig.value.inSeconds == 0) {
+          isFirstClickTimer.value = true;
         }
       }
     };
 
     musicPlayer.onIsLoading = () {
-      print('player is loading ');
+      if (locator<StartupProvider>().userdata.paid == false) {
+        showintrestatialAdsVideo();
+        print('current value: print after loading');
+      }
       playerStatus.value = PlayerStatus.isLoading;
+      print('player is loading');
     };
 
     musicPlayer.onIsPlaying = () {
@@ -171,10 +218,9 @@ class MusicService {
       print('player is stopped');
     };
     musicPlayer.onCompleted = () {
-      if (locator<StartupProvider>().userdata.paid == false ) {
-            // stopPlaying();
-            locator<AdsProvider>().showinterestialAds();
-          }
+      if (locator<StartupProvider>().userdata.paid == false) {
+           showintrestatialAdsVideo();
+      }
       if (repeat) {
         currentPlayerIndex = 9999;
         play();
@@ -182,6 +228,7 @@ class MusicService {
         playerStatus.value = PlayerStatus.isStopped;
       print('player is completed');
     };
+
     musicPlayer.onDuration = (Duration d) {
       if (d != null) {
         max.value = d;
@@ -259,10 +306,22 @@ class MusicService {
       if (timerRemainig.value < Duration(seconds: 1)) {
         stopPlaying();
         t.cancel();
+        isFirstClickTimer.value = true;
       }
       timerRemainig.value = timerRemainig.value - Duration(seconds: 1);
+      isFirstClickTimer.value = false;
       // print('timer is active');
     });
+  }
+
+  void stopTimer(Duration duration) {
+    Timer.periodic(Duration(seconds: 1), (t) {
+//      stopPlaying();
+      t.cancel();
+      isFirstClickTimer.value = true;
+    });
+    isFirstClickTimer.value = true;
+//
   }
 
   Future stopDown() async {
@@ -277,4 +336,90 @@ class MusicService {
     db = await openDatabase(path);
     await db.close();
   }
+
+  getInterestialAds(){
+    rewardAd = AdmobInterstitial(
+        adUnitId: getRewardBasedVideoAdUnitId(),
+        listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+          handleAdsEvent(event, args, 'Interstial Videos', 0);
+        }
+    );
+    rewardAd.load();
+  }
+
+  void handleAdsEvent(AdmobAdEvent event, Map<String, dynamic> args,
+      String adType, int adCount) {
+    switch (event) {
+      case AdmobAdEvent.loaded:
+        print("Ad to load");
+        print("Ad to load $isAdRepeat");
+            isAdLoaded = true;
+        break;
+      case AdmobAdEvent.failedToLoad:
+        if(isAdLoaded== false){
+          rewardAd.load();
+          rewardAdAfter20.load();
+        }
+        rewardAd.load();
+        rewardAdAfter20.load();
+        print("Ad failed to load");
+        break;
+      case AdmobAdEvent.clicked:
+      // TODO: Handle this case.
+        break;
+      case AdmobAdEvent.impression:
+      // TODO: Handle this case.
+        break;
+      case AdmobAdEvent.opened:
+        isAdRepeat = true;
+        print("player state opened: ${playerStatus.value} ,, $isAdRepeat");
+        if(playerStatus.value == PlayerStatus.isPlaying){
+          pause();
+        }
+        break;
+      case AdmobAdEvent.leftApplication:
+      // TODO: Handle this case.
+        break;
+      case AdmobAdEvent.closed:
+        isAdRepeat = true;
+        print("on ad apen");
+        print("player state closed: ${playerStatus.value},, $isAdRepeat");
+        if(playerStatus.value == PlayerStatus.isPaused){
+          resume();
+        }
+        break;
+      case AdmobAdEvent.completed:
+        isAdRepeat = true;
+        print("player state completed: ${playerStatus.value } ,, $isAdRepeat");
+        print("on ad close");
+        break;
+      case AdmobAdEvent.rewarded:
+      // TODO: Handle this case.
+        break;
+      case AdmobAdEvent.started:
+        print("player state started: ${playerStatus.value}");
+        break;
+    }
+  }
+
+  String getRewardBasedVideoAdUnitId() {
+    if (Platform.isIOS) {
+      return 'ca-app-pub-3940256099942544/8691691433';
+    } else if (Platform.isAndroid) {
+      return 'ca-app-pub-3940256099942544/8691691433';
+    }
+    return null;
+  }
+
+  showintrestatialAdsVideo() async {
+    rewardAd..load();
+    if (await rewardAd.isLoaded) {
+      rewardAd.show();
+    }else {
+      print('''
+          Log.d("TAG", "The interstitial wasn't loaded yet.")
+  ''');
+    }
+  }
+
 }

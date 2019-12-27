@@ -1,5 +1,6 @@
 
-import 'package:goodvibes/pages/about/about.dart';
+import 'package:goodvibes/pages/webviewPages/about/about.dart';
+import 'package:goodvibes/pages/webviewPages/helpAndSupport/helpAndSupport.dart';
 import 'package:goodvibes/pages/initial/splash.dart';
 import 'package:goodvibes/pages/notification/notification.dart';
 import 'package:goodvibes/pages/offline.dart';
@@ -7,8 +8,10 @@ import 'package:goodvibes/pages/reminder/reminder_page.dart';
 import 'package:goodvibes/pages/user/email_signin.dart';
 import 'package:goodvibes/pages/user/login.dart';
 import 'package:goodvibes/pages/user/profile_page.dart';
+import 'package:goodvibes/pages/webviewPages/privacyPolicy.dart';
+import 'package:goodvibes/pages/webviewPages/termsAndConditions.dart';
 import 'package:goodvibes/providers.dart/login_provider.dart';
-import 'pages/faq/faq.dart';
+import 'pages/webviewPages/faq/faq.dart';
 import 'pages/home/home.dart';
 import 'pages/initial/intro_page.dart';
 import 'pages/music/album_songs.dart';
@@ -44,5 +47,8 @@ var routes = {
   'addNewReminder': (context) => AddNewReminder(),
   'deleteReminders': (context) => DeleteReminders(),
   'notification': (context) => Notification(),
+  'helpAndSupport': (context) => HelpAndSupport(),
+  'privacyPolicy': (context) => PrivacyPolicy(),
+  'termsAndConditions': (context) => TermsAndConditions(),
 
 };

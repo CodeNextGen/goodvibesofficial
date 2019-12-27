@@ -8,6 +8,7 @@ import 'package:goodvibes/services/player_service.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -83,6 +84,140 @@ class _SettingsPageState extends State<SettingsPage> {
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               'Give us 5 Star'.toUpperCase(),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          stops: [0.1, 0.9],
+                          colors: [
+                            Color(0xFF7E2BF5),
+                            Color(0xFF3741AE),
+                          ],
+                        ),
+                      ),
+                      width: double.infinity,
+                      child: Center(
+                        child: InkWell(
+                          onTap: () => Navigator.pop(context),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'remind me later'.toUpperCase(),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 16.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  Future<void> send() async {
+    final Email email = Email(
+      subject: "User Feedback",
+      recipients: ["android@goodvibesofficial.com"],
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+
+//    _scaffoldKey.currentState.showSnackBar(SnackBar(
+//      content: Text(platformResponse),
+//    ));
+  }
+
+  void _feedBackApp() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            // height: 350.0,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 100.0,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        height: 30.0,
+                        child: Image.asset(
+                          'assets/images/starRating.png',
+                          fit: BoxFit.contain,
+                        )),
+                  ),
+                  Text('We value your thoughts and concerns.',
+                      style: TextStyle(fontSize: 15.0),
+                  textAlign: TextAlign.center,),
+                  Text(
+                    'Love the app? ',
+                    style: TextStyle(color: Colors.blue, fontSize: 14.0),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      send();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.0),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.1, 0.9],
+                            colors: [
+                              Color(0xFF7E2BF5),
+                              Color(0xFF3741AE),
+                            ],
+                          ),
+                        ),
+                        width: double.infinity,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              'Send FeedBack'.toUpperCase(),
                               style: TextStyle(
                                   color: Colors.white, fontSize: 16.0),
                             ),
@@ -406,15 +541,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         ListTile(
                           dense: true,
-                          onTap: () async {
-                            const url =
-                                'http://goodvibesofficial.com/help-and-support';
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
+                          onTap: ()=> Navigator.pushNamed(context, 'helpAndSupport'),
                           title: Row(
                             children: <Widget>[
                           Icon(Icons.help_outline, color: Color(0xFF3741AE),),
@@ -452,6 +579,46 @@ class _SettingsPageState extends State<SettingsPage> {
                             indent: 35.0,
                           ),
                         ),
+//                        ListTile(
+//                          dense: true,
+//                          onTap: () => Navigator.pushNamed(context, 'privacyPolicy'),
+//                          title: Row(
+//                            children: <Widget>[
+//                              Icon(Icons.priority_high, color: Color(0xFF3741AE),),
+//                              SizedBox(width: 10.0),
+//                              Text(
+//                                'Privacy Policy',
+//                                style: TextStyle(
+//                                  fontSize: 15.0,
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                          subtitle: Divider(
+//                            color: Colors.grey,
+//                            indent: 35.0,
+//                          ),
+//                        ),
+//                        ListTile(
+//                          dense: true,
+//                          onTap: () => Navigator.pushNamed(context, 'termsAndConditions'),
+//                          title: Row(
+//                            children: <Widget>[
+//                              Icon(Icons.content_paste, color: Color(0xFF3741AE),),
+//                              SizedBox(width: 10.0),
+//                              Text(
+//                                'Terms & Conditions',
+//                                style: TextStyle(
+//                                  fontSize: 15.0,
+//                                ),
+//                              ),
+//                            ],
+//                          ),
+//                          subtitle: Divider(
+//                            color: Colors.grey,
+//                            indent: 35.0,
+//                          ),
+//                        ),
                         ListTile(
                           dense: true,
                           onTap: () => Navigator.pushNamed(context, 'faq'),
@@ -461,6 +628,26 @@ class _SettingsPageState extends State<SettingsPage> {
                               SizedBox(width: 10.0),
                               Text(
                                 'FAQ',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Divider(
+                            color: Colors.grey,
+                            indent: 35.0,
+                          ),
+                        ),
+                        ListTile(
+                          dense: true,
+                          onTap: () => _feedBackApp(),
+                          title: Row(
+                            children: <Widget>[
+                              Icon(Icons.feedback, color: Color(0xFF3741AE),),
+                              SizedBox(width: 10.0),
+                              Text(
+                                'Feedback',
                                 style: TextStyle(
                                   fontSize: 15.0,
                                 ),
@@ -513,6 +700,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             );
                           }
                         ),
+                        SizedBox( height: 30)
                       ],
                     ),
                   ),

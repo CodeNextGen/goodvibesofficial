@@ -182,8 +182,8 @@ class MusicPlayerPlugin(private val player: MusicPlayer, registrar: Registrar, p
 
   override fun onActivityDestroyed(activity: Activity?) {
     Log.v("MusicPlayerPlugin", "Activity Destroyed")
-    stop()
-    session.controller.unregisterCallback(player)
+//    stop()
+//    session.controller.unregisterCallback(player)
   }
 
   override fun onActivitySaveInstanceState(activity: Activity?, outState: Bundle?) {

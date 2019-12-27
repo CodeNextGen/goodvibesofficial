@@ -12,6 +12,7 @@ class MusicMinimized extends StatefulWidget {
 
 class _MusicMinimizedState extends State<MusicMinimized> {
   bool minimizeddPlayer = false;
+  bool onAdsClick = true;
 
   final _locator = locator<MusicService>();
 

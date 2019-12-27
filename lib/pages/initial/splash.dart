@@ -21,8 +21,9 @@ class _SplashState extends State<Splash> {
 
   @override
   void dispose() {
+    if(audiPlayer!= null)
     audiPlayer.stop();
-    // audiPlayer.dispose();
+//     audiPlayer.dispose();
     audiPlayer = null;
     super.dispose();
   }

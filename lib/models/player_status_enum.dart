@@ -2,5 +2,5 @@ enum PlayerStatus {
   isLoading,
   isPlaying,
   isStopped,
-  isPaused,
+  isPaused
 }

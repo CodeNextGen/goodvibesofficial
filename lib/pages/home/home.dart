@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/widgets/fab.dart';
 import 'package:goodvibes/widgets/music_minimized.dart';
@@ -57,6 +58,23 @@ class _HomePageNewState extends State<HomePageNew> {
       child: Scaffold(
         body: Stack(children: [
           _lastSelected,
+          Positioned(
+            bottom: 1.0,
+            left: 15.0,
+            right: 15.0,
+            child:   Consumer<StartupProvider>(
+              builder: (context, state, _) => state.userdata.paid == false
+                  ? Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Consumer<AdsProvider>(
+                  builder: (context, st, _) => Center(
+                    child: st.footerBanner,
+                  ),
+                ),
+              )
+                  : Container(),
+            ),
+          ),
           Positioned(
             bottom: 1.0,
             left: 15.0,
