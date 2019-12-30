@@ -191,7 +191,7 @@ class SubscriptionPage extends StatelessWidget {
                             ),
                             Flexible(
                               child: Text(
-                                'Remove ads and listen full length track.',
+                                'Remove ads.',
                                 style: TextStyle(
                                     fontSize: 13.0, color: Colors.black),
                               ),

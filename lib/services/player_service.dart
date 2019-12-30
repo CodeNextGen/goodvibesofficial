@@ -45,12 +45,9 @@ class MusicService {
   ValueNotifier<bool> isFirstClickTimer = ValueNotifier(true);
 
   AdmobInterstitial rewardAd;
-  AdmobInterstitial rewardAdAfter20;
   bool isAdRepeat = false;
   bool isAdLoaded = false;
   bool is_Downloading = false;
-
-  int adCounterII = 0;
 
   getInitialData() {
     //get Fav Data
@@ -358,10 +355,8 @@ class MusicService {
       case AdmobAdEvent.failedToLoad:
         if(isAdLoaded== false){
           rewardAd.load();
-          rewardAdAfter20.load();
         }
         rewardAd.load();
-        rewardAdAfter20.load();
         print("Ad failed to load");
         break;
       case AdmobAdEvent.clicked:

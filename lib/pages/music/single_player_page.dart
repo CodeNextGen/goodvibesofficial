@@ -16,64 +16,34 @@ import 'package:flutter/cupertino.dart';
 
 class SinglePlayer extends StatefulWidget {
   final int index;
-  final bool onAdsClick;
 
-
-  SinglePlayer({Key key, this.index, this.onAdsClick}) : super(key: key);
+  SinglePlayer({Key key, this.index}) : super(key: key);
 
   @override
-  _SinglePlayerState createState() => _SinglePlayerState(onAdsClick: onAdsClick);
+  _SinglePlayerState createState() => _SinglePlayerState();
 }
 
-class _SinglePlayerState extends State<SinglePlayer> with WidgetsBindingObserver{
-  AppLifecycleState _appLifecycleState;
+class _SinglePlayerState extends State<SinglePlayer>{
   final _locator = locator<MusicService>();
   final userstate = locator<StartupProvider>();
   double dd = 0.0;
   bool isdownloading = false;
   int downloadPercentage = 0;
-  bool onAdsClick= false;
-
-  bool isAdLoaded= false;
-
-  AdmobInterstitial rewardAd;
-
-  _SinglePlayerState({
-    this.onAdsClick
-});
 
   @override
   void initState() {
     super.initState();
     _locator.getInitialData();
     _locator.getInterestialAds();
-    getInterestialAds();
-    if(onAdsClick== null)
-      setState(() {
-     onAdsClick = false;
-      });
-    print("onAdsClick: $onAdsClick");
-    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    if(_locator.rewardAd!= null)
-    _locator.rewardAd.dispose();
+    if (_locator.rewardAd != null)
+      _locator.rewardAd.dispose();
     _locator.rewardAd = null;
     super.dispose();
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    setState(() {
-      _appLifecycleState = state;
-    });
-  }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -376,8 +346,7 @@ class _SinglePlayerState extends State<SinglePlayer> with WidgetsBindingObserver
                                   if (_locator.currentPlayerIndex ==
                                       _locator.songIndex) {
                                     setState(() {
-                                    _locator.stopPlaying();
-                                    _locator.adCounterII = 0;
+                                      _locator.stopPlaying();
                                     });
                                   }
                                   if (userstate.userdata.paid == false) {
@@ -442,7 +411,7 @@ class _SinglePlayerState extends State<SinglePlayer> with WidgetsBindingObserver
 
                                           //play pause button
                                           InkWell(
-                                            onTap: ()  {
+                                            onTap: () {
                                               print('Play button is tapped');
                                               _locator.play();
                                             },
@@ -733,9 +702,10 @@ class _SinglePlayerState extends State<SinglePlayer> with WidgetsBindingObserver
                                               ),
                                               onPressed: isDownloading
                                                   ? () {
-                                              setState(() {
-                                                _locator.is_Downloading = true;
-                                              });
+                                                setState(() {
+                                                  _locator.is_Downloading =
+                                                  true;
+                                                });
                                                 print(
                                                     'percentage% ${_locator
                                                         .downloadPercantage
@@ -927,113 +897,6 @@ class _SinglePlayerState extends State<SinglePlayer> with WidgetsBindingObserver
         ),
       ),
     );
-  }
-
-  getInterestialAds(){
-    rewardAd = AdmobInterstitial(
-        adUnitId: getRewardBasedVideoAdUnitId(),
-        listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          handleAdsEvent(event, args, 'Interstial Videos');
-        }
-    );
-    rewardAd.load();
-  }
-
-  void handleAdsEvent(AdmobAdEvent event, Map<String, dynamic> args,
-      String adType) {
-    switch (event) {
-      case AdmobAdEvent.loaded:
-        print("Ad to load");
-        isAdLoaded = true;
-        break;
-      case AdmobAdEvent.failedToLoad:
-        if(isAdLoaded== false){
-          rewardAd.load();
-        }
-        print("Ad failed to load");
-        break;
-      case AdmobAdEvent.clicked:
-      // TODO: Handle this case.
-        break;
-      case AdmobAdEvent.impression:
-      // TODO: Handle this case.
-        break;
-      case AdmobAdEvent.opened:
-
-//        if(_appLifecycleState == AppLifecycleState.inactive){
-//        setState(() {
-//          _locator.musicPlayer.pause();
-//          _locator.playerStatus.value = PlayerStatus.isPaused;
-//        });
-//        }
-      setState(() {
-        onAdsClick = true;
-      });
-        print("player state opened: ${_locator.playerStatus.value}");
-        print("player state opened: $_appLifecycleState");
-        break;
-      case AdmobAdEvent.leftApplication:
-      // TODO: Handle this case.
-        break;
-      case AdmobAdEvent.closed:
-        print("on ad apen  ${_locator.playerStatus.value}");
-
-//        if(_appLifecycleState == AppLifecycleState.resumed){
-//        setState(() {
-//          _locator.playerStatus.value = PlayerStatus.isPlaying;
-//          _locator.musicPlayer.resume();});
-//        }
-        setState(() {
-          onAdsClick = true;
-          _locator.play();
-        });
-        print("player state closed: ${_locator.playerStatus.value}");
-        print("player state closed: $_appLifecycleState");
-        break;
-      case AdmobAdEvent.completed:
-        print("on ad close  ${_locator.playerStatus.value}");
-        print("on ad close  $_appLifecycleState");
-//        setState(() {
-//        if (_locator.playerStatus.value == PlayerStatus.isPaused) {
-//          _locator.musicPlayer.resume();
-//          _locator.playerStatus.value = PlayerStatus.isPlaying;
-//        }else
-//          _locator.play();
-//        });
-
-        setState(() {
-          onAdsClick = true;
-        });
-
-        print("player state completed: ${_locator.playerStatus.value}");
-        break;
-      case AdmobAdEvent.rewarded:
-      // TODO: Handle this case.
-        break;
-      case AdmobAdEvent.started:
-        print("player state started: ${_locator.playerStatus.value}");
-        break;
-    }
-  }
-
-  String getRewardBasedVideoAdUnitId() {
-    if (Platform.isIOS) {
-      return 'ca-app-pub-3940256099942544/8691691433';
-    } else if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/8691691433';
-    }
-    return null;
-  }
-
-  showintrestatialAdsVideo() async {
-    rewardAd.load();
-    if (await rewardAd.isLoaded) {
-      rewardAd.show();
-    }else {
-      print('''
-          Log.d("TAG", "The interstitial wasn't loaded yet.")
-  ''');
-    }
   }
 }
 

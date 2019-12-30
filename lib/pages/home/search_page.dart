@@ -272,7 +272,8 @@ class _DefaultSearchBoxState extends State<DefaultSearchBox> {
                                         subtitle: Text(
                                             _popularTracks[index].duration),
                                         title:
-                                            Text(_popularTracks[index].title),
+                                            Text(_popularTracks[index].title,overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,),
                                         leading: Image.network(
                                           _popularTracks[index].image,
                                           width: 40,

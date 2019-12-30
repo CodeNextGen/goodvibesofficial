@@ -104,9 +104,9 @@ class _HomePageNewState extends State<HomePageNew> {
   Widget _buildFab(BuildContext context) {
     return InkWell(
       onTap: () {
-        setState(() {
-          _lastSelected = Meditate();
-        });
+//        setState(() {
+//          _lastSelected = Meditate();
+//        });
       },
       child: Container(
         padding: EdgeInsets.all(8),
