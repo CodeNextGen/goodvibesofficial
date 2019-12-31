@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Premium tracks',
+                        'Latest tracks',
                         style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
