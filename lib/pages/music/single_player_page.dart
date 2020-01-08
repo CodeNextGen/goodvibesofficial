@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:goodvibes/locator.dart';
@@ -697,29 +695,30 @@ class _SinglePlayerState extends State<SinglePlayer>{
                                                           ),
                                                         );
                                                       })
-                                                      : Container(),
+                                                      : isDownloading== true ?Icon(Icons.cloud_queue,color: Colors.grey,): Container(),
                                                 ],
                                               ),
-                                              onPressed: isDownloading
+                                              onPressed:
+                                              isDownloading
                                                   ? () {
-                                                setState(() {
-                                                  _locator.is_Downloading =
-                                                  true;
-                                                });
-                                                print(
-                                                    'percentage% ${_locator
-                                                        .downloadPercantage
-                                                        .value}');
-                                                _locator.stopDown();
-//                                                _locator.downloadTrackIndex =
-//                                                9999;
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                    'Download cancled !',
-                                                    backgroundColor:
-                                                    Colors.deepPurple,
-                                                    textColor:
-                                                    Colors.white70);
+                                                if(_locator.songIndex== _locator.downloadTrackIndex) {
+                                                  setState(() {
+                                                    _locator.is_Downloading =
+                                                    true;
+                                                  });
+                                                  print(
+                                                      'percentage% ${_locator
+                                                          .downloadPercantage
+                                                          .value}');
+                                                  _locator.stopDown();
+                                                  Fluttertoast.showToast(
+                                                      msg:
+                                                      'Download cancled !',
+                                                      backgroundColor:
+                                                      Colors.deepPurple,
+                                                      textColor:
+                                                      Colors.white70);
+                                                }
                                               }
                                                   : () {
                                                 if (isdownloaded) {
@@ -742,7 +741,8 @@ class _SinglePlayerState extends State<SinglePlayer>{
                                                     _locator
                                                         .implementDownload();
                                                 }
-                                              });
+                                              }
+                                              );
                                         }),
                                     isDownloading == true
                                         ?
@@ -751,12 +751,19 @@ class _SinglePlayerState extends State<SinglePlayer>{
                                         _locator.downloadPercantage,
                                         builder: (context, percantage, _) {
                                           return Container(
-                                            child: Text(
+                                            child: _locator.songIndex ==
+                                                _locator
+                                                    .downloadTrackIndex ?Text(
                                               '$percantage %',
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   color: Color(0xff3f3fb6)),
-                                            ),
+                                            ): Text(
+                                              'Wait...',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey),
+                                            )
                                           );
                                         })
                                         :
