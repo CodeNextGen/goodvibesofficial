@@ -20,7 +20,7 @@ class NotificationProvider {
         initializationSettingsAndroid, initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-    // getToken();
+     getToken();
   }
 
   Future<Null> getToken() async {
@@ -28,14 +28,14 @@ class NotificationProvider {
     print('Token for the device is $token');
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     _prefs.setString('notificatioToken', token);
-    String uuid = _prefs.getString('uuid');
-    print(uuid);
-    if(uuid != null)
-    await Dio().post('$baseUrl/v1/users/device',
-        data: {"token": token, "Platform":isAndroid? "Android":"iOS"},
-        options: Options(
-          headers: {'uuid': uuid},
-        ));
+    String uuid = _prefs.getString('uid');
+    print("uuid $uuid");
+//    if(uuid != null)
+//    await Dio().post('$baseUrl/v1/users/device',
+//        data: {"token": token, "Platform":isAndroid? "Android":"iOS"},
+//        options: Options(
+//          headers: {'uuid': uuid},
+//        ));
   }
 
   void fcmConfig() {

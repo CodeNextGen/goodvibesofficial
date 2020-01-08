@@ -72,7 +72,8 @@ class AppInit {
                                                 "url"	TEXT,
                                                 "cname"	TEXT,
                                                 "composer"	TEXT,
-                                                "image"	TEXT
+                                                "image"	TEXT,
+                                                "download_id" INTEGER
                               )''');
                                return true;
     } catch (e) {

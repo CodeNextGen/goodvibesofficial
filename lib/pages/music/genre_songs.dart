@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goodvibes/locator.dart';
 import 'package:goodvibes/models/music_model.dart';
+import 'package:goodvibes/pages/home/genre_page.dart';
 import 'package:goodvibes/pages/music/single_player_page.dart';
 import 'package:goodvibes/providers.dart/ads_provider.dart';
 import 'package:goodvibes/providers.dart/music_provider.dart';
@@ -17,15 +18,22 @@ class GenreSongs extends StatefulWidget {
 }
 
 class _GenreSongsState extends State<GenreSongs> {
-  ScrollController _scrollController = ScrollController();
-  ScrollController _scrollController1 = ScrollController();
+  ScrollController _scrollController ;
+  ScrollController _scrollController1;
   ValueNotifier<bool> isLoading = ValueNotifier(false);
   int id = 0;
 
   @override
   void initState() {
     super.initState();
+    isLoading.value = false;
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +42,8 @@ class _GenreSongsState extends State<GenreSongs> {
     final startupProvider = Provider.of<StartupProvider>(context);
     final musicProvider = Provider.of<MusicProvider>(context);
     final adstate = Provider.of<AdsProvider>(context);
+    _scrollController = ScrollController();
+    _scrollController1= ScrollController();
 
     _scrollController.addListener(() async {
       if (_scrollController.position.pixels ==
@@ -68,7 +78,7 @@ class _GenreSongsState extends State<GenreSongs> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              // leading: Container(),
+//              leading: Container(),
               backgroundColor: Colors.transparent,
               expandedHeight: 160.0,
               floating: false,
@@ -81,15 +91,29 @@ class _GenreSongsState extends State<GenreSongs> {
                       image: AssetImage('assets/images/bg1.png'),
                       fit: BoxFit.cover),
                 ),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Text(
-                      genre.name.toUpperCase(),
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                child: Row(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: IconButton(
+                        padding: const EdgeInsets.all(8.0),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Discover()));
+                        }, icon: Icon(Icons.arrow_back, color: Colors.white,),
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Text(
+                          genre.name.toUpperCase(),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -146,6 +170,28 @@ class _GenreSongsState extends State<GenreSongs> {
         },
         body: Stack(
           children: <Widget>[
+            ValueListenableBuilder<bool>(
+              valueListenable: isLoading,
+              builder: (_context, loading, _) {
+                if (loading)
+                  return Container(
+                    color: Colors.blue.withOpacity(0.4),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          CupertinoActivityIndicator(),
+                          Text('Loading ...', style: TextStyle(color: Colors.green,fontSize: 22),)
+                        ],
+                      ),
+                    ),
+                  );
+                else
+                  return Container();
+              },
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: musicProvider.genreTracksFiltered.isNotEmpty
@@ -322,28 +368,6 @@ class _GenreSongsState extends State<GenreSongs> {
               left: 15.0,
               right: 15.0,
               child: MusicMinimized(),
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: isLoading,
-              builder: (_context, loading, _) {
-                if (loading)
-                  return Container(
-                    color: Colors.blue.withOpacity(0.4),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        CupertinoActivityIndicator(),
-                        Text('Loading ...', style: TextStyle(color: Colors.green,fontSize: 22),)
-                      ],
-                    ),
-                  ),
-                  );
-                else
-                  return Container();
-              },
             ),
           ],
         ),

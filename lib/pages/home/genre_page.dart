@@ -11,6 +11,7 @@ class Discover extends StatefulWidget {
 }
 
 class _DiscoverState extends State<Discover> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,10 +71,9 @@ class _DiscoverState extends State<Discover> {
                         Genre gen = state.genre[index];
                         return InkWell(
                           onTap: () {
-                            
                             state.getGenreTracks(id: gen.id, page: 1);
                             state.getGenereCategory(gen.id);
-                            Navigator.pushNamed(context, 'genreSongs',
+                            Navigator.pushReplacementNamed(context, 'genreSongs',
                                 arguments: gen);
                           },
                           child: Container(

@@ -722,8 +722,10 @@ class _SinglePlayerState extends State<SinglePlayer>{
                                                     Colors.white70);
                                               }
                                                   : () {
-                                                if (isdownloaded)
+                                                if (isdownloaded) {
+                                                  _locator.onDownloadCancled();
                                                   _deleteDownload();
+                                                }
                                                 else {
                                                   Fluttertoast.showToast(
                                                       msg:

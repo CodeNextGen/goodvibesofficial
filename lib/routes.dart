@@ -1,4 +1,5 @@
 
+import 'package:goodvibes/pages/home/genre_page.dart';
 import 'package:goodvibes/pages/webviewPages/about/about.dart';
 import 'package:goodvibes/pages/webviewPages/helpAndSupport/helpAndSupport.dart';
 import 'package:goodvibes/pages/initial/splash.dart';
@@ -50,5 +51,6 @@ var routes = {
   'helpAndSupport': (context) => HelpAndSupport(),
   'privacyPolicy': (context) => PrivacyPolicy(),
   'termsAndConditions': (context) => TermsAndConditions(),
+  'discover': (context) => Discover(),
 
 };

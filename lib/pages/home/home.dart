@@ -10,7 +10,6 @@ import 'package:goodvibes/widgets/music_minimized.dart';
 import 'package:provider/provider.dart';
 import 'genre_page.dart';
 import 'home_page.dart';
-import 'meditate.dart';
 import 'search_page.dart';
 import 'settings_page.dart';
 

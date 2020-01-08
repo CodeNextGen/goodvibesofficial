@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:dio/dio.dart';
@@ -8,9 +9,11 @@ import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/models/player_status_enum.dart';
 import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:music_player/music_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import '../config.dart';
 import '../locator.dart';
 
 class MusicService {
@@ -44,6 +47,8 @@ class MusicService {
       ValueNotifier(PlayerStatus.isStopped);
   ValueNotifier<bool> isFirstClickTimer = ValueNotifier(true);
 
+  int downloadId= -1;
+
   AdmobInterstitial rewardAd;
   bool isAdRepeat = false;
   bool isAdLoaded = false;
@@ -73,13 +78,40 @@ class MusicService {
     var downloadpath = await getDatabasesPath();
     // var pathh =  join(downloadpath, t.filename);
     Track t = musics[songIndex];
+
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      String deviceToken = _prefs.getString('notificatioToken');
+      String uid = _prefs.getString('uid');
+      print("deviceToken $deviceToken");
+
+      Map<String, String> formData = {
+        "device_token": deviceToken,
+        "device_platform":isAndroid? "android":"ios"
+      };
+      Dio dio = Dio();
+      Response response = await dio.post('''$baseUrl/v1/tracks/${t.id}/download''',
+        data: json.encode(formData),
+        options: Options(
+          headers: {'uuid': uid,
+          'Content-Type':'application/json'},
+        ),
+      );
+        downloadId = await response.data["download_id"];
+    } on DioError catch (e) {
+      print(e);
+    }
+
+    print("downloadId $downloadId");
+    print("trackId ${t.id}");
+
     CancelToken cancelToken = CancelToken();
     if(is_Downloading== true) {
       cancelToken.cancel(["User clicked download listner"]);
       is_Downloading = false;
     }
 //    try {
-      await Dio().download("${t.url}", "$downloadpath/${t.filename}",
+      await Dio().download("${t.trackDownloadUrl}", "$downloadpath/${t.filename}",
           options: Options(headers: {HttpHeaders.acceptEncodingHeader: "*"}),
           onReceiveProgress: (int d, int t) {
             getdownloadpercentage(d, t);
@@ -88,14 +120,16 @@ class MusicService {
 //    }catch(e){
 //      print("exception $e");
 //    }
-    print(t.filename);
+
     await db.rawInsert('''insert into  download
-       (id ,title,filename,duration,cid,description,url,cname,composer,image)
+       (id ,title,filename,duration,cid,description,url,cname,composer,image, download_id)
        values
-        ("${t.id}" , "${t.title}", "${t.filename}", "${t.duration}", "${t.cid}", "${t.description}", "$downloadpath/${t.filename}", "${t.cname}", "${t.composer}", "${t.image}")''');
+        ("${t.id}" , "${t.title}", "${t.filename}", "${t.duration}", "${t.cid}", "${t.description}", "$downloadpath/${t.filename}", "${t.cname}", "${t.composer}", "${t.image}", "$downloadId")''');
     getdownloadpercentage(1, 1);
     isDownloading.value = false;
     isDownloaded.value = true;
+    if(isDownloaded.value == true)
+      onDownloadFinished();
   }
 
   void play() {
@@ -171,12 +205,6 @@ class MusicService {
         //   stopPlaying();
         //   locator<AdsProvider>().showinterestialAds();
         // }
-
-        if (current.value.inMinutes == 1 && current.value.inSeconds == 90) {
-          if (locator<StartupProvider>().userdata.paid == false) {
-            showintrestatialAdsVideo();
-          }
-        }
 
         if (current.value.inMinutes == 20 && current.value.inSeconds == 1206) {
           if (locator<StartupProvider>().userdata.paid == false) {
@@ -328,10 +356,46 @@ class MusicService {
     isDownloading.value = false;
     isDownloaded.value = false;
 
+    onDownloadCancled();
+
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'data.db');
     db = await openDatabase(path);
     await db.close();
+  }
+
+  onDownloadCancled([int downloadIds]) async {
+    downloadTrackIndex = songIndex;
+    Track t = musics[songIndex];
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      String uid = _prefs.getString('uid');
+      Response response = await Dio().post('''$baseUrl/v1/tracks/${t.id}/cancel_download?download_id=${downloadId ?? downloadIds}''',
+        options: Options(
+          headers: {'uuid': uid},
+        ),
+      );
+      print("response delete code: ${response.statusCode}");
+    } on DioError catch (e) {
+      print(e);
+    }
+  }
+
+  onDownloadFinished() async {
+    downloadTrackIndex = songIndex;
+    Track t = musics[songIndex];
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      String uid = _prefs.getString('uid');
+      Response response = await Dio().post('''$baseUrl/v1/tracks/${t.id}/finish_download?download_id=$downloadId''',
+        options: Options(
+          headers: {'uuid': uid},
+        ),
+      );
+      print("response success code: ${response.statusCode}");
+    } on DioError catch (e) {
+      print(e);
+    }
   }
 
   getInterestialAds(){

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goodvibes/locator.dart';
@@ -6,7 +7,10 @@ import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/pages/music/single_player_page.dart';
 import 'package:goodvibes/services/player_service.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../config.dart';
 
 class DownloadedMusic extends StatefulWidget {
   @override
@@ -15,17 +19,58 @@ class DownloadedMusic extends StatefulWidget {
 
 class _DownloadedMusicState extends State<DownloadedMusic> {
   final _locator = locator<MusicService>();
+  bool _firstRun = true;
+
   Future<List<Track>> getDownloadData() async {
+    _initAppUserState();
     Database db;
     var downloadpath = await getDatabasesPath();
     String path = join(downloadpath, 'data.db');
     db = await openDatabase(path, version: 1);
-    var fb = await db.rawQuery('select * from download');
+
+    if(_firstRun == true) {
+      var respons = await Dio().get(
+        '$baseUrl/v1//users/downloads',
+        queryParameters: {'page': 1, 'per_page': 20},
+        options: Options(
+          headers: {'Authorization': authorization},
+        ),
+      );
+      List<dynamic> rsp = respons.data as List;
+      var responseTracks = rsp.map<Track>((json) => Track.fromJson(json));
+      print("respons=> $respons");
+      print("responseTracks=> $responseTracks");
+
+      responseTracks.forEach((t) async {
+        await db.rawInsert('''insert into  download
+       (id ,title,filename,duration,cid,description,url,cname,composer,image)
+       values
+        ("${t.id}" , "${t.title}", "${t.filename}", "${t.duration}", "${t
+            .cid}", "${t.description}", "$downloadpath/${t.filename}", "${t
+            .cname}", "${t.composer}", "${t.image}")''');
+      });
+    }
+    var fb = await db.rawQuery('select DISTINCT id,title,filename,duration,cid,description,url,cname,composer,image,download_id from download');
     var a = fb.map<Track>((data) => Track.fromDownload(data));
     List<Track> favs = [];
     favs.addAll(a);
+    print("offline $favs");
     return favs;
   }
+
+  _initAppUserState() async {
+    SharedPreferences prefs;
+    prefs = await SharedPreferences.getInstance();
+    var fr = prefs.getBool('first_run');
+    print('first run status $fr');
+    if (fr == true || fr== null) {
+      _firstRun = true;
+    } else
+      _firstRun = false;
+    // print('Checking for user logged in');
+    //check for user logged in or not
+  }
+
 
   void deleteDown(int id) async {
     Database db;
@@ -33,10 +78,14 @@ class _DownloadedMusicState extends State<DownloadedMusic> {
     String path = join(downloadpath, 'data.db');
     db = await openDatabase(path, version: 1);
     var d = await db.rawQuery('select url from download where id=$id');
+    var download = await db.rawQuery('select download_id from download where id=$id');
     File file = File(d[0]['url']);
+    int downloadId = download[0]["download_id"];
     file.delete();
     await db.rawDelete('delete from  download where id=$id');
     setState(() {});
+    print("downloadId $downloadId");
+    _locator.onDownloadCancled(downloadId);
   }
 
   @override

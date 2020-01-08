@@ -86,9 +86,11 @@ class MusicProvider with ChangeNotifier {
         ),
       );
       List<dynamic> rsp = respons.data as List;
+      print("tracks =>$rsp");
       var a = rsp.map<Track>((json) => Track.fromJson(json));
       // trendingTracks.clear();
       trendingTracks.addAll(a);
+      print("tracksDownloadUrl =>${trendingTracks[0].trackDownloadUrl}");
     }
 
     notifyListeners();
@@ -184,6 +186,7 @@ class MusicProvider with ChangeNotifier {
 
   filterGenereTracks(int id) {
     genreTracksFiltered.clear();
+//    genreTracks.clear();
     genreTracks.forEach((Track track) {
       if (track.cid == id) genreTracksFiltered.add(track);
     });

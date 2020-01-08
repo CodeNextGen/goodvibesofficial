@@ -61,8 +61,8 @@ class Genre {
 }
 
 class Track extends Equatable {
-   final int id, cid,gid,playCount;
-  final String title, filename, description, url, image, duration, cname, gname, composer;
+   final int id, cid,gid,playCount, downloadId;
+  final String title, filename, description, url, image, duration, cname, gname, composer, trackDownloadUrl;
 
   Track(
       {this.id,
@@ -77,7 +77,9 @@ class Track extends Equatable {
       this.cid,
       this.filename,
       this.composer,
-      this.cname});
+      this.cname,
+      this.trackDownloadUrl,
+      this.downloadId});
 
 
   factory Track.fromJson(Map<String, dynamic> json) {
@@ -89,6 +91,7 @@ class Track extends Equatable {
         playCount: json['play_count'],
         description: json['description'] ?? '',
         url: json['track_url'],
+        trackDownloadUrl: json["track_download_url"],
         filename: json['filename'] ?? json['track_url'].toString().split('/').last,
         image: json['track_image']??'https://nepalikart.com/wp-content/uploads/2019/09/placeholder.jpg',
         duration: json['duration'],
@@ -122,7 +125,8 @@ class Track extends Equatable {
         image: db['image'] ?? 'https://nepalikart.com/wp-content/uploads/2019/09/placeholder.jpg',
         duration: db['duration'] ?? '',
         composer: db['composer'] ?? '',
-        cname: db['cname'] ?? '');
+        cname: db['cname'] ?? '',
+        downloadId: db['download_id']?? -1);
   }
 
   @override
