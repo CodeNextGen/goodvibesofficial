@@ -20,6 +20,7 @@ import 'routes.dart';
 
 void main() {
   // Crashlytics.instance.enableInDevMode = true;
+  WidgetsFlutterBinding.ensureInitialized();
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -32,7 +33,7 @@ void main() {
 class AppRoot extends StatelessWidget with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.suspending) {
+    if (state == AppLifecycleState.detached) {
       if (Platform.isAndroid) {
         final _androidAppRetain = MethodChannel("android_app_retain");
         _androidAppRetain.invokeMethod("hide");
