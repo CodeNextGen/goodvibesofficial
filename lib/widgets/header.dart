@@ -38,19 +38,23 @@ class Header extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      'Hello, ${state.userdata.name == null ? 'Guest' : state.userdata.name.split(' ')[0]}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13.0,
-                          color: Colors.white),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        'Hello, ${state.userdata.name == null ? 'Guest' : state.userdata.name.split(' ')[0]}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13.0,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
-                  Text(
-                    (DateFormat.yMEd().format(DateTime.now())),
-                    style: TextStyle(color: Colors.white, fontSize: 9.0),
+                  Flexible(
+                    child: Text(
+                      (DateFormat.yMEd().format(DateTime.now())),
+                      style: TextStyle(color: Colors.white, fontSize: 9.0),
+                    ),
                   )
                 ],
               ),

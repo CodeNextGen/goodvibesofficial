@@ -61,6 +61,11 @@ class ReminderDbProvider with ChangeNotifier {
   }
 
   getReminder() async {
+    String path;
+    var databasesPath;
+    databasesPath = await getDatabasesPath();
+    path = join(databasesPath, 'data.db');
+    db = await openDatabase(path, version: 1);
     var fb = await db.query('reminder');
     var a = fb.map<NotificationModel>((data) => NotificationModel.fromDb(data));
     notifications.clear();

@@ -12,7 +12,7 @@ class AlbumSongs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RouteSettings data = ModalRoute.of(context).settings;
-    print(data.arguments);
+    print("argss " + data.arguments);
     Albums album = data.arguments;
     void openDialog(index) {
       Navigator.of(context).push(

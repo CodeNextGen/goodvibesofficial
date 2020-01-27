@@ -159,8 +159,14 @@ class LoginProvider with ChangeNotifier {
         await prefs.setBool('paid', response.data['paid']);
       } on DioError catch (e) {
         print(e);
+        print('Error exception');
+        print('Error: $e');
+//        statusWidget = Icon(Icons.error);
+//        status = e.message == null ? "error": e.message;
       }
       await _setUserData(user);
+      statusWidget = Icon(Icons.check_circle);
+      status = 'Login Sucess !\n Welcome ${user.displayName ?? 'Guest'}';
       return true;
     } catch (e) {
       statusWidget = Icon(Icons.error);
@@ -172,7 +178,7 @@ class LoginProvider with ChangeNotifier {
   Future<bool> loginWithFacebook() async {
     FacebookLogin facebookLogin = FacebookLogin();
     final FacebookLoginResult fblogin = await facebookLogin.logIn(['email']);
-    // print('facebook login status is ${fblogin.status} ${fblogin.errorMessage} ${fblogin.accessToken}');
+     print('facebook login status is ${fblogin.status} ${fblogin.errorMessage} ${fblogin.accessToken}');
     if (fblogin.status == FacebookLoginStatus.loggedIn) {
       fbcredential = FacebookAuthProvider.getCredential(
           accessToken: fblogin.accessToken.token);

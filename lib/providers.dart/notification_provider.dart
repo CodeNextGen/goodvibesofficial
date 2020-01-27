@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:goodvibes/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationProvider {
@@ -14,7 +12,7 @@ class NotificationProvider {
     _fcm.requestNotificationPermissions(IosNotificationSettings());
     // _fcm.subscribeToTopic(timezone);
     var initializationSettingsAndroid =
-        new AndroidInitializationSettings('ic_launcher');
+        new AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);

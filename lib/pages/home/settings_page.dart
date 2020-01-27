@@ -579,66 +579,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             indent: 35.0,
                           ),
                         ),
-//                        ListTile(
-//                          dense: true,
-//                          onTap: () => Navigator.pushNamed(context, 'privacyPolicy'),
-//                          title: Row(
-//                            children: <Widget>[
-//                              Icon(Icons.priority_high, color: Color(0xFF3741AE),),
-//                              SizedBox(width: 10.0),
-//                              Text(
-//                                'Privacy Policy',
-//                                style: TextStyle(
-//                                  fontSize: 15.0,
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                          subtitle: Divider(
-//                            color: Colors.grey,
-//                            indent: 35.0,
-//                          ),
-//                        ),
-//                        ListTile(
-//                          dense: true,
-//                          onTap: () => Navigator.pushNamed(context, 'termsAndConditions'),
-//                          title: Row(
-//                            children: <Widget>[
-//                              Icon(Icons.content_paste, color: Color(0xFF3741AE),),
-//                              SizedBox(width: 10.0),
-//                              Text(
-//                                'Terms & Conditions',
-//                                style: TextStyle(
-//                                  fontSize: 15.0,
-//                                ),
-//                              ),
-//                            ],
-//                          ),
-//                          subtitle: Divider(
-//                            color: Colors.grey,
-//                            indent: 35.0,
-//                          ),
-//                        ),
-                        ListTile(
-                          dense: true,
-                          onTap: () => Navigator.pushNamed(context, 'faq'),
-                          title: Row(
-                            children: <Widget>[
-                          Icon(Icons.question_answer, color: Color(0xFF3741AE),),
-                              SizedBox(width: 10.0),
-                              Text(
-                                'FAQ',
-                                style: TextStyle(
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          subtitle: Divider(
-                            color: Colors.grey,
-                            indent: 35.0,
-                          ),
-                        ),
                         ListTile(
                           dense: true,
                           onTap: () => _feedBackApp(),

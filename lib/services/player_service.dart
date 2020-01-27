@@ -74,9 +74,7 @@ class MusicService {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'data.db');
     db = await openDatabase(path);
-
     var downloadpath = await getDatabasesPath();
-    // var pathh =  join(downloadpath, t.filename);
     Track t = musics[songIndex];
 
     try {
@@ -121,10 +119,26 @@ class MusicService {
 //      print("exception $e");
 //    }
 
-    await db.rawInsert('''insert into  download
-       (id ,title,filename,duration,cid,description,url,cname,composer,image, download_id)
-       values
-        ("${t.id}" , "${t.title}", "${t.filename}", "${t.duration}", "${t.cid}", "${t.description}", "$downloadpath/${t.filename}", "${t.cname}", "${t.composer}", "${t.image}", "$downloadId")''');
+    var row = {
+      'id': t.id,
+      'title': t.title,
+      'filename': t.filename,
+      'duration': t.duration,
+      'cid': t.cid,
+      'description': t.description,
+      'url': '$downloadpath/${t.filename}',
+      'cname': t.cname,
+      'composer': t.composer,
+      'image': t.image,
+      'download_id': downloadId
+    };
+
+    await db.insert("download", row);
+
+//    await db.rawInsert('''insert into  download
+//       (id ,title,filename,duration,cid,description,url,cname,composer,image, download_id)
+//       values
+//        ("${t.id}" , "${t.title}", "${t.filename}", "${t.duration}", "${t.cid}", "${t.description}", "$downloadpath/${t.filename}", "${t.cname}", "${t.composer}", "${t.image}", "$downloadId")''');
     getdownloadpercentage(1, 1);
     isDownloading.value = false;
     isDownloaded.value = true;
@@ -462,10 +476,16 @@ class MusicService {
   }
 
   String getRewardBasedVideoAdUnitId() {
+//    unit test
+//    if (Platform.isIOS) {
+//      return 'ca-app-pub-3940256099942544/8691691433';
+//    } else if (Platform.isAndroid) {
+//      return 'ca-app-pub-3940256099942544/8691691433';
+//    }
     if (Platform.isIOS) {
-      return 'ca-app-pub-3940256099942544/8691691433';
+      return 'ca-app-pub-4284307101881172/1459265561';
     } else if (Platform.isAndroid) {
-      return 'ca-app-pub-3940256099942544/8691691433';
+      return 'ca-app-pub-4284307101881172/3803506652';
     }
     return null;
   }

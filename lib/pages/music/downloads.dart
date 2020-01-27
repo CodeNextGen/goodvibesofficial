@@ -5,6 +5,7 @@ import 'package:goodvibes/locator.dart';
 import 'dart:io';
 import 'package:goodvibes/models/music_model.dart';
 import 'package:goodvibes/pages/music/single_player_page.dart';
+import 'package:goodvibes/providers.dart/startup_provider.dart';
 import 'package:goodvibes/services/player_service.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,15 +21,19 @@ class DownloadedMusic extends StatefulWidget {
 class _DownloadedMusicState extends State<DownloadedMusic> {
   final _locator = locator<MusicService>();
   bool _firstRun = true;
+  final _startLocator = locator<StartupProvider>();
+
 
   Future<List<Track>> getDownloadData() async {
     _initAppUserState();
+    await _startLocator.checkConnectivity();
+    bool network =  _startLocator.networkStatus;
     Database db;
     var downloadpath = await getDatabasesPath();
     String path = join(downloadpath, 'data.db');
     db = await openDatabase(path, version: 1);
 
-    if(_firstRun == true) {
+    if(network) {
       var respons = await Dio().get(
         '$baseUrl/v1//users/downloads',
         queryParameters: {'page': 1, 'per_page': 20},
@@ -49,13 +54,22 @@ class _DownloadedMusicState extends State<DownloadedMusic> {
             .cid}", "${t.description}", "$downloadpath/${t.filename}", "${t
             .cname}", "${t.composer}", "${t.image}")''');
       });
+
+      var fb = await db.rawQuery('select DISTINCT id,title,filename,duration,cid,description,url,cname,composer,image,download_id from download');
+      var a = fb.map<Track>((data) => Track.fromDownload(data));
+      List<Track> favs = [];
+      favs.addAll(a);
+      print("offline $favs");
+      return favs;
+    }else {
+      var fb = await db.rawQuery(
+          'select DISTINCT id,title,filename,duration,cid,description,url,cname,composer,image,download_id from download');
+      var a = fb.map<Track>((data) => Track.fromDownload(data));
+      List<Track> favs = [];
+      favs.addAll(a);
+      print("offline $favs");
+      return favs;
     }
-    var fb = await db.rawQuery('select DISTINCT id,title,filename,duration,cid,description,url,cname,composer,image,download_id from download');
-    var a = fb.map<Track>((data) => Track.fromDownload(data));
-    List<Track> favs = [];
-    favs.addAll(a);
-    print("offline $favs");
-    return favs;
   }
 
   _initAppUserState() async {

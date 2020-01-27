@@ -17,6 +17,7 @@ class _ReminderPageState extends State<ReminderPage> {
   Widget build(BuildContext context) {
     final notify = Provider.of<NotificationProvider>(context);
     final reminder = Provider.of<ReminderDbProvider>(context);
+    reminder.initDB();
     reminder.getReminder();
     return Scaffold(
       body: Container(

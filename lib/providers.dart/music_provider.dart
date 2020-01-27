@@ -134,6 +134,7 @@ class MusicProvider with ChangeNotifier {
   }
 
   getGenre() async {
+    genre.clear();
     var respons = await dio.get(
       '$baseUrl/v1/genres',
       options: Options(
@@ -142,7 +143,6 @@ class MusicProvider with ChangeNotifier {
     );
     List<dynamic> rsp = respons.data as List;
     var a = rsp.map<Genre>((json) => Genre.fromJson(json));
-    genre.clear();
     genre.addAll(a);
     notifyListeners();
   }
@@ -170,6 +170,7 @@ class MusicProvider with ChangeNotifier {
   getGenreTracks({int id, int page = 1, int perpage = 20}) async {
     print('id is $id');
     categoryTracks.clear();
+    genreTracks.clear();
     var respons = await dio.get(
       '$baseUrl/v1/tracks',
       queryParameters: {'genre_id': id, 'page': page, 'per_page': perpage},

@@ -12,7 +12,6 @@ import 'package:goodvibes/pages/user/profile_page.dart';
 import 'package:goodvibes/pages/webviewPages/privacyPolicy.dart';
 import 'package:goodvibes/pages/webviewPages/termsAndConditions.dart';
 import 'package:goodvibes/providers.dart/login_provider.dart';
-import 'pages/webviewPages/faq/faq.dart';
 import 'pages/home/home.dart';
 import 'pages/initial/intro_page.dart';
 import 'pages/music/album_songs.dart';
@@ -38,7 +37,6 @@ var routes = {
   'favs': (context) => FavsMusicList(),
   'download': (context) => DownloadedMusic(),
   'about': (context) => AboutUs(),
-  'faq': (context) => FaqPage(),
   'history': (context) => HistoryMusicList(),
   'askQuestion': (context) => AskQuestion(),
   'genreSongs': (context) => GenreSongs(),

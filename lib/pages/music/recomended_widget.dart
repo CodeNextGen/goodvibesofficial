@@ -16,7 +16,6 @@ class Recomended extends StatelessWidget {
     // final musicProvider = Provider.of<MusicProvider>(context);
 
     void openDialog(index) {
-      if (startupProvider.userdata.paid != true) adstate.showinterestialAds();
       Navigator.of(context).push(
         new MaterialPageRoute<Null>(
           builder: (BuildContext context) {

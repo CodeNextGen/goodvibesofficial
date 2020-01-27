@@ -34,14 +34,11 @@ class _GenreSongsState extends State<GenreSongs> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     RouteSettings data = ModalRoute.of(context).settings;
     Genre genre = data.arguments;
-    final startupProvider = Provider.of<StartupProvider>(context);
     final musicProvider = Provider.of<MusicProvider>(context);
-    final adstate = Provider.of<AdsProvider>(context);
     _scrollController = ScrollController();
     _scrollController1= ScrollController();
 
@@ -91,29 +88,15 @@ class _GenreSongsState extends State<GenreSongs> {
                       image: AssetImage('assets/images/bg1.png'),
                       fit: BoxFit.cover),
                 ),
-                child: Row(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: IconButton(
-                        padding: const EdgeInsets.all(8.0),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Discover()));
-                        }, icon: Icon(Icons.arrow_back, color: Colors.white,),
-                      ),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      genre.name.toUpperCase(),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                          genre.name.toUpperCase(),
-                          style: TextStyle(fontSize: 18, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -166,6 +149,7 @@ class _GenreSongsState extends State<GenreSongs> {
                   )),
                 ),
               ),
+
           ];
         },
         body: Stack(
@@ -211,8 +195,6 @@ class _GenreSongsState extends State<GenreSongs> {
                             locator<MusicService>().musics =
                                 musicProvider.genreTracksFiltered;
                             locator<MusicService>().songIndex = index;
-                            if (startupProvider.userdata.paid != true)
-                              adstate.showinterestialAds();
                             Navigator.of(context).push(
                               new MaterialPageRoute<Null>(
                                 builder: (BuildContext context) {
@@ -291,8 +273,6 @@ class _GenreSongsState extends State<GenreSongs> {
                                 locator<MusicService>().musics =
                                     musicProvider.genreTracks;
                                 locator<MusicService>().songIndex = index;
-                                if (startupProvider.userdata.paid != true)
-                                  adstate.showinterestialAds();
                                 Navigator.of(context).push(
                                   new MaterialPageRoute<Null>(
                                     builder: (BuildContext context) {

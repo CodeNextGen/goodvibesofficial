@@ -71,10 +71,10 @@ class _DiscoverState extends State<Discover> {
                         Genre gen = state.genre[index];
                         return InkWell(
                           onTap: () {
+                            Navigator.pushNamed(context, 'genreSongs',
+                                arguments: gen);
                             state.getGenreTracks(id: gen.id, page: 1);
                             state.getGenereCategory(gen.id);
-                            Navigator.pushReplacementNamed(context, 'genreSongs',
-                                arguments: gen);
                           },
                           child: Container(
                             child: Stack(

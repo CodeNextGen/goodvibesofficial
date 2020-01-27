@@ -11,7 +11,7 @@ description: Good Vibes Official Belive than achieve
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.2.8+35
+version: 2.2.10+39
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -23,12 +23,12 @@ dependencies:
   cupertino_icons: ^0.1.2
   provider: ^3.1.0
   audioplayers: ^0.13.2
-  sqflite: ^1.1.7
+  sqflite: any
   connectivity: ^0.4.4
-  shared_preferences: ^0.5.3+4
-  dio: ^3.0.3
+  shared_preferences: any
+  dio: any
   get_it: ^3.0.1
-  app_settings: 1.0.6+2
+  app_settings: ^3.0.0+1
   firebase_auth: ^0.14.0+5
   google_sign_in: ^4.0.7
   flutter_facebook_login: ^3.0.0
@@ -50,7 +50,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.3.0
   dots_indicator: ^1.1.0
   flutter_webview_plugin: ^0.3.9+1
-  flutter_email_sender: ^2.2.1
+  flutter_email_sender: ^2.2.2
   http: any
   music_player:
     path: ./music_player
